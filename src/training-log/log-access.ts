@@ -3,4 +3,10 @@ import { LogEntry } from "./log-entry";
 
 export const getLog = (): Promise<LogEntry[]> => get("log/");
 
-export const getNextLogEntry = (): Promise<LogEntry> => get("next/");
+export const getNextLogEntry = async (): Promise<LogEntry> => {
+  const logEntry: LogEntry = await get("next/");
+  if (logEntry.label === "Next: ") {
+    logEntry.label = "Next Workout";
+  }
+  return logEntry;
+};
