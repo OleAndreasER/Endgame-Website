@@ -7,3 +7,12 @@ nav {
   align-items: center;
   border-bottom: 2px solid black;
 }
+
+a:hover {
+  color: gray;
+  cursor: pointer;
+}
+
+a {
+  font-size: large;
+}
