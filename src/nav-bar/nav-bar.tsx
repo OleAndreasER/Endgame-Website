@@ -1,47 +1,17 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./nav-bar.css";
+import { NavLink } from "./nav-link/nav-link";
 
 export function NavBar() {
-  const navigate = useNavigate();
   return (
     <>
       <div className="nav-space" />
       <nav>
-        <a
-          onClick={() => {
-            navigate("/");
-          }}
-        >
-          Training log
-        </a>
-        <a
-          onClick={() => {
-            navigate("/lifts");
-          }}
-        >
-          Lifts
-        </a>
-        <a
-          onClick={() => {
-            navigate("/program");
-          }}
-        >
-          Program
-        </a>
-        <a
-          onClick={() => {
-            navigate("/training-profile");
-          }}
-        >
-          Trondheim1
-        </a>
-        <a
-          onClick={() => {
-            navigate("/user-profile");
-          }}
-        >
-          OleAndreasER
-        </a>
+        <NavLink path="/" text="Training Log" />
+        <NavLink path="/lifts" text="Lifts" />
+        <NavLink path="/program" text="Program" />
+        <NavLink path="/training-profile" text="Trondheim1" />
+        <NavLink path="/user-profile" text="OleAndreasER" />
       </nav>
     </>
   );

@@ -1,0 +1,12 @@
+a:hover {
+  color: gray;
+  cursor: pointer;
+}
+
+a {
+  font-size: large;
+}
+
+.current-page {
+  text-decoration: underline;
+}

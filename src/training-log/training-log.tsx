@@ -18,11 +18,11 @@ export function TrainingLog() {
   return (
     <div className="training-log">
       <div>
-        {nextLogEntries.map((nextLogEntry) => (
-          <LogEntryTable logEntry={nextLogEntry} />
+        {nextLogEntries.map((nextLogEntry, i) => (
+          <LogEntryTable key={i} logEntry={nextLogEntry} />
         ))}
-        {log.map((logEntry) => (
-          <LogEntryTable logEntry={logEntry} />
+        {log.map((logEntry, i) => (
+          <LogEntryTable key={i + 1000} logEntry={logEntry} />
         ))}
       </div>
     </div>

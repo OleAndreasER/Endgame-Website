@@ -3,7 +3,7 @@ nav {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: var(--primary);
+  background-color: var(--background-color);
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -19,13 +19,4 @@ nav,
 
 .nav-space {
   z-index: 1;
-}
-
-a:hover {
-  color: gray;
-  cursor: pointer;
-}
-
-a {
-  font-size: large;
 }
