@@ -7,7 +7,7 @@ export interface LogEntry {
       reps: number;
       setType: {
         contents: boolean;
-        tag: "PR" | "Work";
+        tag?: "PR" | "Work";
       };
       weight: number;
     }[];

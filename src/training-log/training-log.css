@@ -1,0 +1,5 @@
+.training-log {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
