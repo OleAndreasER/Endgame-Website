@@ -1,9 +1,9 @@
-a:hover {
+p:hover {
   color: gray;
   cursor: pointer;
 }
 
-a {
+p {
   font-size: large;
 }
 

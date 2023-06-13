@@ -11,13 +11,13 @@ export function NavLink({ path, text }: Props) {
   const location = useLocation();
 
   return (
-    <a
+    <p
       onClick={() => {
         navigate(path);
       }}
       className={location.pathname === path ? "current-page" : ""}
     >
       {text}
-    </a>
+    </p>
   );
 }

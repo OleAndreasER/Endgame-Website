@@ -1,4 +1,3 @@
-import { useLocation, useNavigate } from "react-router-dom";
 import "./nav-bar.css";
 import { NavLink } from "./nav-link/nav-link";
 
