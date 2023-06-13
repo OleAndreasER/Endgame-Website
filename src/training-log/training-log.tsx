@@ -16,11 +16,16 @@ export function TrainingLog() {
           <tr>
             <th>{logEntry.label}</th>
           </tr>
-          {logEntry.liftsInOrder.map((lift) => (
-            <tr>
-              <th>{lift}</th>
-            </tr>
-          ))}
+          {logEntry.liftsInOrder.map((lift) =>
+            logEntry.sessionMap[lift].map((session) => (
+              <tr>
+                <th>{session.lift}</th>
+                <td>{session.setType.tag}</td>
+                <td>{session.reps} reps</td>
+                <td>{session.weight}kg</td>
+              </tr>
+            ))
+          )}
           <tr></tr>
         </table>
       ))}

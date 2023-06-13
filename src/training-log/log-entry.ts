@@ -10,6 +10,6 @@ export interface LogEntry {
         tag: "PR" | "Work";
       };
       weight: number;
-    };
+    }[];
   };
 }
