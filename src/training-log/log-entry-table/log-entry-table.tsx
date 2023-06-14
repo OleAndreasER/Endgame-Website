@@ -16,7 +16,6 @@ const maybePlural = (x: number, unit: string): string => {
 export function LogEntryTable({ logEntry }: Props) {
   return (
     <>
-      <p>{logEntry.label}</p>
       <table>
         <tbody>
           {logEntry.liftsInOrder.map((lift, i) =>

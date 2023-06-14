@@ -3,3 +3,27 @@
   flex-direction: row;
   justify-content: center;
 }
+
+p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#add-image {
+  height: 40px;
+  width: 40px;
+}
+
+#up-arrow {
+  position: fixed;
+  height: 50px;
+  width: 50px;
+  left: 75vw;
+  top: 100px;
+}
+
+#add-image:hover,
+#up-arrow:hover {
+  cursor: pointer;
+}
