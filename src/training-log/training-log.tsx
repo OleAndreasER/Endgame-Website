@@ -14,10 +14,12 @@ export function TrainingLog() {
   );
 
   useEffect(() => {
-    getNextLogEntry().then((nextLogEntry) => {
-      setNextLogEntry(nextLogEntry);
-    });
-    getLog().then(setLog);
+    getNextLogEntry()
+      .then((nextLogEntry) => {
+        setNextLogEntry(nextLogEntry);
+      })
+      .catch(console.error);
+    getLog().then(setLog).catch(console.error);
   }, []);
 
   return (

@@ -1,3 +1,9 @@
+import { GoogleLogin } from "@react-oauth/google";
+
 export function UserProfile() {
-  return <p>User Profile</p>;
+  return (
+    <>
+      <GoogleLogin onSuccess={console.log} onError={console.error} />
+    </>
+  );
 }
