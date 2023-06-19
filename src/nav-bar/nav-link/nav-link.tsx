@@ -15,7 +15,7 @@ export function NavLink({ path, text }: Props) {
       onClick={() => {
         navigate(path);
       }}
-      className={"nav-link " + location.pathname === path ? "current-page" : ""}
+      className={`link ${location.pathname === path ? " current-page" : ""}`}
     >
       {text}
     </p>

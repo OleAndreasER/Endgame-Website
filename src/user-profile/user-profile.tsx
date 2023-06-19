@@ -1,11 +1,10 @@
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
-import { User } from "../authentication/user";
 import { UserContext } from "../authentication/user-provider";
 import { useContext } from "react";
 
 export function UserProfile() {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { setCurrentUser } = useContext(UserContext);
   return (
     <>
       <GoogleLogin
@@ -17,8 +16,6 @@ export function UserProfile() {
         }}
         onError={() => console.log("Login failed.")}
       />
-      <p>{currentUser?.name}</p>
-      <p>{currentUser?.id}</p>
     </>
   );
 }

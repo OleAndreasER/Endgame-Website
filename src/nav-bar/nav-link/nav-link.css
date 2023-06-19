@@ -1,9 +1,9 @@
-.nav-link:hover {
+.link:hover {
   color: gray;
   cursor: pointer;
 }
 
-.nav-link {
+.link {
   font-size: large;
 }
 
