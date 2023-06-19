@@ -18,7 +18,7 @@ export function TrainingLog() {
       .then((nextLogEntry) => {
         setNextLogEntry(nextLogEntry);
       })
-      .catch(console.error);
+      .catch(() => console.log("Server offline."));
     getLog().then(setLog).catch(console.error);
   }, []);
 

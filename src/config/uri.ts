@@ -1,1 +1,1 @@
-export const testUriBase = "http://localhost:8080/";
+export const testUriBase = "https://localhost:8080/";
