@@ -1,21 +1,21 @@
-table {
+.log-entry-table {
   border-collapse: collapse;
   border: 3px solid;
 }
 
-th {
+.log-entry-table th {
   color: var(--background-color);
 }
 
-th,
-td {
+.log-entry-table th,
+.log-entry-table td {
   text-align: center;
   width: 100px;
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
-.fail td {
+.log-entry-table .fail td {
   background-color: red;
 }
 
@@ -23,7 +23,7 @@ p {
   text-align: center;
 }
 
-tr:hover {
+.log-entry-table tr:hover {
   background-color: var(--secondary-background-color);
   cursor: pointer;
 }

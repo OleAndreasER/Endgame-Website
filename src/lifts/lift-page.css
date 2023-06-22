@@ -1,0 +1,11 @@
+.lifts-table {
+  font-size: x-large;
+}
+
+.lifts-table td,
+.lifts-table th {
+  text-align: center;
+  width: 100px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
