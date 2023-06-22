@@ -5,6 +5,7 @@
 
 .link {
   font-size: large;
+  user-select: none;
 }
 
 .current-page {
