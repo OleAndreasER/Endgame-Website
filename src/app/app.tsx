@@ -3,10 +3,10 @@ import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router";
 import { NavBar } from "../nav-bar/nav-bar";
 import { TrainingLog } from "../training-log/training-log";
-import { Lifts } from "../lifts/lifts";
 import { Program } from "../program/program";
 import { TrainingProfile } from "../training-profile/training-profile";
 import { UserProfile } from "../user-profile/user-profile";
+import { LiftsPage } from "../lifts/lifts-page";
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<TrainingLog />} />
-          <Route path="/lifts" element={<Lifts />} />
+          <Route path="/lifts" element={<LiftsPage />} />
           <Route path="/program" element={<Program />} />
           <Route path="/training-profile" element={<TrainingProfile />} />
           <Route path="/user-profile" element={<UserProfile />} />
