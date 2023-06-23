@@ -1,5 +1,20 @@
-import { get } from "../misc/fetchMethods";
+import { get, post } from "../misc/fetchMethods";
 import { LogEntry, Sets } from "./log-entry";
+
+export const addNextLogEntry = async (): Promise<LogEntry> => {
+  const addedLogEntry: LogEntryFromServer = await post("log/");
+  return toLogEntry(addedLogEntry);
+};
+
+export const getLog = async (): Promise<LogEntry[]> => {
+  const logFromServer: LogEntryFromServer[] = await get("log/");
+  return logFromServer.map(toLogEntry);
+};
+
+export const getNextLogEntries = async (logs: number): Promise<LogEntry[]> => {
+  const logFromServer: LogEntryFromServer[] = await get(`log/next/${logs}`);
+  return logFromServer.map(toLogEntry);
+};
 
 interface LogEntryFromServer {
   label: string;
@@ -68,14 +83,4 @@ const toLogEntry = (logEntryFromServer: LogEntryFromServer): LogEntry => {
     label: logEntryFromServer.label,
     sessions: sessionsGroupedAndOrdered,
   };
-};
-
-export const getLog = async (): Promise<LogEntry[]> => {
-  const logFromServer: LogEntryFromServer[] = await get("log/");
-  return logFromServer.map(toLogEntry);
-};
-
-export const getNextLogEntries = async (logs: number): Promise<LogEntry[]> => {
-  const logFromServer: LogEntryFromServer[] = await get(`log/next/${logs}`);
-  return logFromServer.map(toLogEntry);
 };
