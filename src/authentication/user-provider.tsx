@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { User } from "./user";
+import jwt_decode from "jwt-decode";
+import { CredentialResponse, googleLogout } from "@react-oauth/google";
 
 interface Props {
   children: JSX.Element;
@@ -7,7 +9,8 @@ interface Props {
 
 interface UserContextValue {
   currentUser: User | undefined;
-  setCurrentUser: (user: User) => void;
+  logIn: (credentalToken: CredentialResponse) => void;
+  logOut: () => void;
 }
 
 export const UserContext = React.createContext<UserContextValue>(
@@ -35,7 +38,18 @@ export const UserProvider = ({ children }: Props) => {
     <UserContext.Provider
       value={{
         currentUser,
-        setCurrentUser: setUserPersistently,
+        logIn: (credentialToken) => {
+          if (credentialToken.credential) {
+            const userInfo: any = jwt_decode(credentialToken.credential);
+            setUserPersistently({ name: userInfo.name, id: userInfo.sub });
+          }
+        },
+        logOut: () => {
+          googleLogout();
+          setCurrentUser(undefined);
+          localStorage.removeItem("userId");
+          localStorage.removeItem("userName");
+        },
       }}
     >
       {children}

@@ -1,21 +1,19 @@
 import { GoogleLogin } from "@react-oauth/google";
-import jwt_decode from "jwt-decode";
 import { UserContext } from "../authentication/user-provider";
 import { useContext } from "react";
 
 export function UserProfile() {
-  const { setCurrentUser } = useContext(UserContext);
+  const { currentUser, logIn, logOut } = useContext(UserContext);
   return (
     <>
-      <GoogleLogin
-        onSuccess={(credentalToken) => {
-          if (credentalToken.credential) {
-            const userInfo: any = jwt_decode(credentalToken.credential);
-            setCurrentUser({ name: userInfo.name, id: userInfo.sub });
-          }
-        }}
-        onError={() => console.log("Login failed.")}
-      />
+      {currentUser ? (
+        <button onClick={logOut}>Log out</button>
+      ) : (
+        <GoogleLogin
+          onSuccess={logIn}
+          onError={() => console.log("Login failed.")}
+        />
+      )}
     </>
   );
 }
