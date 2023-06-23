@@ -34,7 +34,6 @@ export const LogProvider = ({ children }: Props) => {
           if (nextLogEntryCount >= nextLogEntries.length) {
             getNextLogEntries(nextLogEntryCount + 5).then(setNextLogEntries);
           }
-          console.log([nextLogEntryCount, nextLogEntries.length]);
         },
       }}
     >

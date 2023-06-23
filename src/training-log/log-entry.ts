@@ -1,15 +1,15 @@
 export interface LogEntry {
   label: string;
-  liftsInOrder: string[];
-  sessionMap: {
-    [lift: string]: {
-      lift: string;
-      reps: number;
-      setType: {
-        contents: boolean;
-        tag?: "PR" | "Work";
-      };
-      weight: number;
-    }[];
+  sessions: {
+    [lift: string]: Sets[];
   };
+}
+
+export interface Sets {
+  sets: number;
+  lift: string;
+  reps: number;
+  setType: "PR" | "Work";
+  wasSuccessfulPr?: boolean;
+  weight: number;
 }

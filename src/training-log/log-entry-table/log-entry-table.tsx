@@ -18,19 +18,19 @@ export function LogEntryTable({ logEntry }: Props) {
     <>
       <table className="log-entry-table">
         <tbody>
-          {logEntry.liftsInOrder.map((lift, i) =>
-            logEntry.sessionMap[lift].map((session, j) => (
+          {Object.entries(logEntry.sessions).map(([lift, session], i) =>
+            session.map((sets, j) => (
               <tr
                 key={j}
-                className={session.setType.contents === false ? "fail" : ""}
+                className={sets.wasSuccessfulPr === false ? "fail" : ""}
               >
                 <th style={{ backgroundColor: "#" + liftGroupColor[i] }}>
-                  {session.lift}
+                  {sets.lift}
                 </th>
-                <td>{session.setType.tag}</td>
-                <td>{maybePlural(1, "set")}</td>
-                <td>{maybePlural(session.reps, "rep")}</td>
-                <td>{session.weight}kg</td>
+                <td>{sets.setType}</td>
+                <td>{maybePlural(sets.sets, "set")}</td>
+                <td>{maybePlural(sets.reps, "rep")}</td>
+                <td>{sets.weight}kg</td>
               </tr>
             ))
           )}
