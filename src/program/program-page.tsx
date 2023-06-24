@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Program } from "./program";
 import { getProgram } from "./program-access";
+import { UserContext } from "../authentication/user-provider";
 
 export function ProgramPage() {
+  const { currentUser } = useContext(UserContext);
   const [program, setProgram] = useState<Program | undefined>();
 
   useEffect(() => {
-    getProgram().then(setProgram);
-  }, []);
+    if (!currentUser) return;
+    getProgram(currentUser.id).then(setProgram);
+  }, [currentUser]);
 
   return (
     <>

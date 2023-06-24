@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Lifts } from "./lifts";
 import { getLifts } from "./lifts-access";
 import "./lift-page.css";
+import { UserContext } from "../authentication/user-provider";
 
 export function LiftsPage() {
+  const { currentUser } = useContext(UserContext);
   const [lifts, setLifts] = useState<Lifts | undefined>();
 
   useEffect(() => {
-    getLifts().then(setLifts);
-  }, []);
+    if (!currentUser) return;
+    getLifts(currentUser.id).then(setLifts);
+  }, [currentUser]);
 
   return (
     <>

@@ -1,5 +1,7 @@
 import { get } from "../misc/fetchMethods";
 
-export const getProfileName = (): Promise<string> => get("profiles/active/");
+export const getProfileName = (userId: string): Promise<string> =>
+  get(`profiles/${userId}/active`);
 
-export const getProfileNames = (): Promise<string[]> => get("profiles/");
+export const getProfileNames = (userId: string): Promise<string[]> =>
+  get(`profiles/${userId}`);

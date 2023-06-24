@@ -31,7 +31,7 @@ const toLifts = (stats: Stats): Lifts => {
   };
 };
 
-export const getLifts = async (): Promise<Lifts> => {
-  const stats: Stats = await get("stats/");
+export const getLifts = async (userId: string): Promise<Lifts> => {
+  const stats: Stats = await get(`stats/${userId}`);
   return toLifts(stats);
 };

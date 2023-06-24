@@ -9,8 +9,9 @@ export function NavBar() {
   const [profileName, setProfileName] = useState<string | undefined>();
 
   useEffect(() => {
-    getProfileName().then(setProfileName);
-  }, []);
+    if (!currentUser) return;
+    getProfileName(currentUser.id).then(setProfileName);
+  }, [currentUser]);
 
   return (
     <>

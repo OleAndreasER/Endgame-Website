@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { LogEntry } from "./log-entry";
 import { addNextLogEntry, getLog, getNextLogEntries } from "./log-access";
+import { UserContext } from "../authentication/user-provider";
 
 interface Props {
   children: JSX.Element;
@@ -17,14 +18,17 @@ export const LogContext = React.createContext<LogContextValue>(
 );
 
 export const LogProvider = ({ children }: Props) => {
+  const { currentUser } = useContext(UserContext);
   const [log, setLog] = useState<LogEntry[]>([]);
   const [nextLogEntries, setNextLogEntries] = useState<LogEntry[]>([]);
   const [nextLogEntryCount, setNextLogEntryCount] = useState<number>(1);
 
   useEffect(() => {
-    getLog().then(setLog);
-    getNextLogEntries(5).then(setNextLogEntries);
-  }, []);
+    if (currentUser) {
+      getLog(currentUser.id).then(setLog);
+      getNextLogEntries(currentUser.id, 5).then(setNextLogEntries);
+    }
+  }, [currentUser]);
 
   return (
     <LogContext.Provider
@@ -32,16 +36,20 @@ export const LogProvider = ({ children }: Props) => {
         log: nextLogEntries.slice(0, nextLogEntryCount).reverse().concat(log),
 
         addNextLogEntry: () => {
+          if (!currentUser) return;
           setNextLogEntryCount(nextLogEntryCount + 1);
           if (nextLogEntryCount >= nextLogEntries.length) {
-            getNextLogEntries(nextLogEntryCount + 5).then(setNextLogEntries);
+            getNextLogEntries(currentUser.id, nextLogEntryCount + 5).then(
+              setNextLogEntries
+            );
           }
         },
 
         addNextLogEntryToLog: () => {
-          addNextLogEntry().then((addedLogEntry) => {
+          if (!currentUser) return;
+          addNextLogEntry(currentUser.id).then((addedLogEntry) => {
             setNextLogEntryCount(1);
-            getNextLogEntries(5).then(setNextLogEntries);
+            getNextLogEntries(currentUser.id, 5).then(setNextLogEntries);
             setLog((previousLog) => [addedLogEntry, ...previousLog]);
           });
         },

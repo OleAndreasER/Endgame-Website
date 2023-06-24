@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { getProfileNames } from "./profile-access";
+import { UserContext } from "../authentication/user-provider";
 
 export function TrainingProfile() {
+  const { currentUser } = useContext(UserContext);
   const [profileNames, setProfileNames] = useState<string[]>([]);
 
   useEffect(() => {
-    getProfileNames().then(setProfileNames);
-  }, []);
+    if (!currentUser) return;
+    getProfileNames(currentUser.id).then(setProfileNames);
+  }, [currentUser]);
 
   return (
     <>

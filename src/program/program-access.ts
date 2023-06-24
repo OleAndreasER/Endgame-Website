@@ -36,7 +36,7 @@ const toProgram = (program: ProgramFromServer): Program => {
   };
 };
 
-export const getProgram = async (): Promise<Program> => {
-  const programFromServer: ProgramFromServer = await get("/program");
+export const getProgram = async (userId: string): Promise<Program> => {
+  const programFromServer: ProgramFromServer = await get(`/program/${userId}`);
   return toProgram(programFromServer);
 };
