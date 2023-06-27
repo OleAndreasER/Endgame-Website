@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { getProfileNames } from "./profile-access";
+import { getProfileNames, setActiveProfile } from "./profile-access";
 import { UserContext } from "../authentication/user-provider";
 
 export function TrainingProfile() {
@@ -16,7 +16,14 @@ export function TrainingProfile() {
       <h1>Training Profiles</h1>
       <ul>
         {profileNames.map((profileName) => (
-          <li>{profileName}</li>
+          <li
+            onClick={() => {
+              if (!currentUser) return;
+              setActiveProfile(currentUser.id, profileName);
+            }}
+          >
+            {profileName}
+          </li>
         ))}
       </ul>
     </>
