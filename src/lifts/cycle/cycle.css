@@ -1,0 +1,17 @@
+.cycle {
+  border: solid var(--text-color) 3px;
+  display: flex;
+  margin: 5px;
+}
+
+.cycle-item {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cycle-item:hover {
+  background-color: var(--secondary-background-color);
+  cursor: pointer;
+}

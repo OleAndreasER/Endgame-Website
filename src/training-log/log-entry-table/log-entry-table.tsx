@@ -1,3 +1,4 @@
+import { liftGroupColor } from "../../config/lift-group-color";
 import { LogEntry } from "../log-entry";
 import "./log-entry-table.css";
 
@@ -5,8 +6,6 @@ interface Props {
   key: number;
   logEntry: LogEntry;
 }
-
-const liftGroupColor: string[] = ["445E93", "B6174B", "306B34"];
 
 const maybePlural = (x: number, unit: string): string => {
   if (x === 1) return `${x} ${unit}`;
