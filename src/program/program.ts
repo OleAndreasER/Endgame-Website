@@ -1,5 +1,8 @@
 export interface Program {
   liftGroupCycles: string[][];
+  liftGroup: {
+    [lift: string]: number;
+  };
   liftCycles: {
     [lift: string]: {
       lift: string;

@@ -28,7 +28,15 @@ const toProgram = (program: ProgramFromServer): Program => {
     liftCyclesInOrder[lift] = program.liftCycleMap[lift];
   }
 
+  const liftGroup: { [lift: string]: number } = {};
+  program.liftGroupCycles.forEach((liftGroupCycle, i) => {
+    for (const lift of liftGroupCycle) {
+      liftGroup[lift] = i;
+    }
+  });
+
   return {
+    liftGroup: liftGroup,
     liftGroupCycles: program.liftGroupCycles,
     liftCycles: liftCyclesInOrder,
     progression: program.progressionMap,

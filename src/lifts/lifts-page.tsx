@@ -11,7 +11,6 @@ import { getProgram } from "../program/program-access";
 export function LiftsPage() {
   const { currentUser } = useContext(UserContext);
   const [lifts, setLifts] = useState<Lifts | undefined>();
-  const [cycleIndex, setCycleIndex] = useState<number>(0);
   const [program, setProgram] = useState<Program | undefined>();
 
   useEffect(() => {
@@ -29,12 +28,28 @@ export function LiftsPage() {
     });
   };
 
+  const setLiftCyclePosition = (lift: string, position: number): void => {
+    setLifts((lifts) => {
+      if (!lifts) return undefined;
+      return {
+        ...lifts,
+        stats: {
+          ...lifts.stats,
+          [lift]: {
+            ...lifts.stats[lift],
+            cyclePosition: position,
+          },
+        },
+      };
+    });
+  };
+
   return (
     <div className="lifts-page">
-      {lifts ? (
+      {lifts !== undefined && program !== undefined ? (
         <>
-          <p>Bodyweight: {lifts?.bodyweight}</p>
-          {program?.liftGroupCycles.map((items: string[], i) => (
+          <p>Bodyweight: {lifts.bodyweight}</p>
+          {program.liftGroupCycles.map((items: string[], i) => (
             <Cycle
               itemWidth={100}
               items={items}
@@ -47,17 +62,27 @@ export function LiftsPage() {
           ))}
           <table className="lifts-table">
             <tbody>
-              <tr>
-                <th></th>
-                <th>PR</th>
-                <th>Cycle</th>
-              </tr>
               {Object.entries(lifts.stats).map(([lift, liftStats]) => (
                 <tr>
                   <th>{lift}</th>
                   <td>{liftStats.pr}kg</td>
                   <td>
-                    {liftStats.cyclePosition + 1}/{liftStats.cycleLength}
+                    {
+                      <Cycle
+                        itemWidth={80}
+                        items={[
+                          "PR",
+                          ...Array(liftStats.cycleLength - 1).fill("Work"),
+                        ]}
+                        activeItemIndex={liftStats.cyclePosition}
+                        setActiveItemIndex={(position) => {
+                          setLiftCyclePosition(lift, position);
+                        }}
+                        activeItemColor={`#${
+                          liftGroupColor[program.liftGroup[lift]]
+                        }`}
+                      />
+                    }
                   </td>
                 </tr>
               ))}
