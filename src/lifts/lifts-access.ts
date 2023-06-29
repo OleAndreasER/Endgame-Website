@@ -1,4 +1,4 @@
-import { get } from "../misc/fetchMethods";
+import { get, put } from "../misc/fetchMethods";
 import { Lifts } from "./lifts";
 
 interface LiftStats {
@@ -31,7 +31,19 @@ const toLifts = (stats: Stats): Lifts => {
   };
 };
 
+const toStats = (lifts: Lifts): Stats => {
+  return {
+    bodyweight: lifts.bodyweight,
+    liftGroupPositions: lifts.liftGroupPositions,
+    liftStatsMap: lifts.stats,
+    liftsInOrder: Object.keys(lifts.stats),
+  };
+};
+
 export const getLifts = async (userId: string): Promise<Lifts> => {
   const stats: Stats = await get(`stats/${userId}`);
   return toLifts(stats);
 };
+
+export const setLifts = (userId: string, lifts: Lifts): Promise<void> =>
+  put(`stats/${userId}`, toStats(lifts));

@@ -7,6 +7,7 @@ import { Cycle } from "./cycle/cycle";
 import { liftGroupColor } from "../config/lift-group-color";
 import { Program } from "../program/program";
 import { getProgram } from "../program/program-access";
+import { setLifts as storeLifts } from "./lifts-access";
 
 export function LiftsPage() {
   const { currentUser } = useContext(UserContext);
@@ -42,6 +43,12 @@ export function LiftsPage() {
         },
       };
     });
+  };
+
+  const saveChanges = () => {
+    if (!currentUser) return;
+    if (!lifts) return;
+    storeLifts(currentUser.id, lifts).then(console.log);
   };
 
   return (
@@ -88,6 +95,7 @@ export function LiftsPage() {
               ))}
             </tbody>
           </table>
+          <button onClick={saveChanges}>Confirm</button>
         </>
       ) : (
         <></>
