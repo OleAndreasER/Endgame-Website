@@ -20,6 +20,7 @@ export function Cycle({
       {items.map((item, i) =>
         i === activeItemIndex ? (
           <div
+            key={i}
             style={{
               width: `${itemWidth}px`,
               backgroundColor: activeItemColor,
@@ -31,6 +32,7 @@ export function Cycle({
           </div>
         ) : (
           <div
+            key={i}
             style={{ width: `${itemWidth}px` }}
             onClick={() => setActiveItemIndex(i)}
             className="cycle-item"

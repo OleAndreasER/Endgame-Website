@@ -3,7 +3,6 @@ import { LogEntry } from "../log-entry";
 import "./log-entry-table.css";
 
 interface Props {
-  key: number;
   logEntry: LogEntry;
 }
 

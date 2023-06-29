@@ -15,8 +15,9 @@ export function TrainingProfile() {
     <>
       <h1>Training Profiles</h1>
       <ul>
-        {profileNames.map((profileName) => (
+        {profileNames.map((profileName, i) => (
           <li
+            key={i}
             onClick={() => {
               if (!currentUser) return;
               setActiveProfile(currentUser.id, profileName);

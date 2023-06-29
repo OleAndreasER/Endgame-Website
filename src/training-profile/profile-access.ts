@@ -1,4 +1,4 @@
-import { get, put } from "../misc/fetchMethods";
+import { get, put } from "../misc/fetch-methods";
 
 export const getProfileName = (userId: string): Promise<string> =>
   get(`profiles/${userId}/active`);

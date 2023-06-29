@@ -2,6 +2,8 @@
   --background-color: #f9f9f9;
   --text-color: #161616;
   --secondary-background-color: #ebebeb;
+  --edited-color: rgb(35, 142, 208);
+  --error-color: red;
 }
 
 * {
@@ -17,4 +19,15 @@ body {
 /*Scrollbar is above all content*/
 html {
   overflow-y: scroll;
+}
+
+.text-input {
+  text-align: right;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  border-bottom: 2px solid var(--text-color);
+  background-color: transparent;
+  margin-left: 5px;
+  margin-right: 0px;
 }

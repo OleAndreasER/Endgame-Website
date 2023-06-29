@@ -1,4 +1,4 @@
-import { get, put } from "../misc/fetchMethods";
+import { get, put } from "../misc/fetch-methods";
 import { Lifts } from "./lifts";
 
 interface LiftStats {

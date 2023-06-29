@@ -1,4 +1,4 @@
-import { get, post } from "../misc/fetchMethods";
+import { get, post } from "../misc/fetch-methods";
 import { LogEntry, Sets } from "./log-entry";
 
 export const addNextLogEntry = async (userId: string): Promise<LogEntry> => {

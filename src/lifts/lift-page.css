@@ -2,14 +2,25 @@
   font-size: x-large;
 }
 
+.lifts-table td {
+  text-align: center;
+}
+
+.lifts-table th {
+  text-align: left;
+}
+
 .lifts-table td,
 .lifts-table th {
-  text-align: center;
-  width: 100px;
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
 .lifts-page {
   margin: 10px;
+}
+
+.weight-input {
+  width: 50%;
+  font-size: x-large;
 }

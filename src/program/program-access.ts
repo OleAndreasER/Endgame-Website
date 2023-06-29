@@ -1,4 +1,4 @@
-import { get } from "../misc/fetchMethods";
+import { get } from "../misc/fetch-methods";
 import { Program } from "./program";
 
 interface ProgramFromServer {

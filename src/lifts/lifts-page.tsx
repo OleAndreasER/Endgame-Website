@@ -55,6 +55,37 @@ export function LiftsPage() {
     });
   };
 
+  const setPr = (weight: number, lift: string): void => {
+    setLifts((lifts) => {
+      if (!lifts) return undefined;
+      return {
+        ...lifts,
+        stats: {
+          ...lifts.stats,
+          [lift]: {
+            ...lifts.stats[lift],
+            pr: weight,
+          },
+        },
+      };
+    });
+  };
+
+  const handleWeightInput = (
+    inputElement: EventTarget & HTMLInputElement,
+    oldWeight: number,
+    set: (weight: number) => void
+  ): void => {
+    const weight = Number(inputElement.value);
+    if (weight === oldWeight) return;
+    if (!isNaN(weight) && weight >= 0) {
+      inputElement.style.color = "var(--edited-color)";
+      set(weight);
+    } else {
+      inputElement.value = `${oldWeight}`;
+    }
+  };
+
   const saveChanges = () => {
     if (!currentUser) return;
     if (!lifts) return;
@@ -65,19 +96,9 @@ export function LiftsPage() {
     <div className="lifts-page">
       {lifts !== undefined && program !== undefined ? (
         <>
-          <p>
-            Bodyweight:{" "}
-            <input
-              type="number"
-              step="0.1"
-              min={0}
-              onChange={(e) => setBodyweight(parseFloat(e.target.value))}
-              value={lifts.bodyweight}
-            />
-          </p>
-
           {program.liftGroupCycles.map((items: string[], i) => (
             <Cycle
+              key={i}
               itemWidth={100}
               items={items}
               activeItemIndex={lifts.liftGroupPositions[i]}
@@ -89,10 +110,40 @@ export function LiftsPage() {
           ))}
           <table className="lifts-table">
             <tbody>
-              {Object.entries(lifts.stats).map(([lift, liftStats]) => (
-                <tr>
+              <tr>
+                <th>Bodyweight</th>
+                <td>
+                  <input
+                    className="text-input weight-input"
+                    type="text"
+                    onBlur={(e) =>
+                      handleWeightInput(
+                        e.target,
+                        lifts.bodyweight,
+                        setBodyweight
+                      )
+                    }
+                    defaultValue={lifts.bodyweight}
+                  />
+                  kg
+                </td>
+              </tr>
+              {Object.entries(lifts.stats).map(([lift, liftStats], i) => (
+                <tr key={i}>
                   <th>{lift}</th>
-                  <td>{liftStats.pr}kg</td>
+                  <td>
+                    <input
+                      className="text-input weight-input"
+                      type="text"
+                      onBlur={(e) =>
+                        handleWeightInput(e.target, liftStats.pr, (weight) =>
+                          setPr(weight, lift)
+                        )
+                      }
+                      defaultValue={liftStats.pr}
+                    />
+                    kg
+                  </td>
                   <td>
                     {
                       <Cycle

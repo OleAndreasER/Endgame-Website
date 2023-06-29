@@ -12,10 +12,10 @@ export function TrainingLog() {
     <div className="training-log">
       <div>
         {log.map((logEntry, i) => (
-          <>
-            <LogEntryHeader key={-(i + 1)} label={logEntry.label} />
-            <LogEntryTable key={i} logEntry={logEntry} />
-          </>
+          <div key={i}>
+            <LogEntryHeader label={logEntry.label} />
+            <LogEntryTable logEntry={logEntry} />
+          </div>
         ))}
       </div>
       <img
