@@ -45,6 +45,16 @@ export function LiftsPage() {
     });
   };
 
+  const setBodyweight = (weight: number): void => {
+    setLifts((lifts) => {
+      if (!lifts) return undefined;
+      return {
+        ...lifts,
+        bodyweight: weight,
+      };
+    });
+  };
+
   const saveChanges = () => {
     if (!currentUser) return;
     if (!lifts) return;
@@ -55,7 +65,17 @@ export function LiftsPage() {
     <div className="lifts-page">
       {lifts !== undefined && program !== undefined ? (
         <>
-          <p>Bodyweight: {lifts.bodyweight}</p>
+          <p>
+            Bodyweight:{" "}
+            <input
+              type="number"
+              step="0.1"
+              min={0}
+              onChange={(e) => setBodyweight(parseFloat(e.target.value))}
+              value={lifts.bodyweight}
+            />
+          </p>
+
           {program.liftGroupCycles.map((items: string[], i) => (
             <Cycle
               itemWidth={100}
