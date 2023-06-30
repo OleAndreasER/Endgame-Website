@@ -19,7 +19,7 @@ interface Inputs {
 
 export function LiftsPage() {
   const { currentUser } = useContext(UserContext);
-  const [lifts, setLifts] = useState<Lifts | undefined>();
+  const [lifts, updateLifts] = useImmer<Lifts | undefined>(undefined);
   const [originalLifts, setOriginalLifts] = useState<Lifts | undefined>();
   const [program, setProgram] = useState<Program | undefined>();
   const [weightInputs, updateWeightInputs] = useImmer<Inputs | undefined>(
@@ -35,7 +35,7 @@ export function LiftsPage() {
   const fetchData = (): void => {
     if (!currentUser) return;
     getLifts(currentUser.id).then((lifts) => {
-      setLifts(lifts);
+      updateLifts(lifts);
       const originalLifts: Lifts = JSON.parse(JSON.stringify(lifts));
       setOriginalLifts(originalLifts);
       updateWeightInputs({});
@@ -57,53 +57,30 @@ export function LiftsPage() {
   };
 
   const setLiftGroupPosition = (index: number, position: number): void => {
-    setLifts((lifts) => {
-      if (!lifts) return undefined;
-      const updatedLiftGroupPositions: number[] = [...lifts.liftGroupPositions];
-      updatedLiftGroupPositions[index] = position;
-      return { ...lifts, liftGroupPositions: updatedLiftGroupPositions };
+    updateLifts((lifts) => {
+      if (!lifts) return;
+      lifts.liftGroupPositions[index] = position;
     });
   };
 
   const setLiftCyclePosition = (lift: string, position: number): void => {
-    setLifts((lifts) => {
-      if (!lifts) return undefined;
-      return {
-        ...lifts,
-        stats: {
-          ...lifts.stats,
-          [lift]: {
-            ...lifts.stats[lift],
-            cyclePosition: position,
-          },
-        },
-      };
+    updateLifts((lifts) => {
+      if (!lifts) return;
+      lifts.stats[lift].cyclePosition = position;
     });
   };
 
   const setBodyweight = (weight: number): void => {
-    setLifts((lifts) => {
-      if (!lifts) return undefined;
-      return {
-        ...lifts,
-        bodyweight: weight,
-      };
+    updateLifts((lifts) => {
+      if (!lifts) return;
+      lifts.bodyweight = weight;
     });
   };
 
   const setPr = (weight: number, lift: string): void => {
-    setLifts((lifts) => {
-      if (!lifts) return undefined;
-      return {
-        ...lifts,
-        stats: {
-          ...lifts.stats,
-          [lift]: {
-            ...lifts.stats[lift],
-            pr: weight,
-          },
-        },
-      };
+    updateLifts((lifts) => {
+      if (!lifts) return;
+      lifts.stats[lift].pr = weight;
     });
   };
 
