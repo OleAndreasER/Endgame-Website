@@ -3,6 +3,7 @@ import "./cycle.css";
 interface Props {
   items: string[];
   activeItemIndex: number;
+  originalActiveItemIndex: number;
   setActiveItemIndex: (index: number) => void;
   itemWidth: number;
   activeItemColor: string;
@@ -11,6 +12,7 @@ interface Props {
 export function Cycle({
   items,
   activeItemIndex,
+  originalActiveItemIndex,
   itemWidth,
   setActiveItemIndex,
   activeItemColor,
@@ -19,6 +21,7 @@ export function Cycle({
     <div style={{ width: `${itemWidth * items.length}px` }} className="cycle">
       {items.map((item, i) =>
         i === activeItemIndex ? (
+          //ACTIVE
           <div
             key={i}
             style={{
@@ -30,7 +33,21 @@ export function Cycle({
           >
             {item}
           </div>
+        ) : i === originalActiveItemIndex ? (
+          //ORIGINALLY ACTIVE
+          <div
+            key={i}
+            style={{
+              width: `${itemWidth}px`,
+              color: "var(--edited-color)",
+            }}
+            onClick={() => setActiveItemIndex(i)}
+            className="cycle-item"
+          >
+            {item}
+          </div>
         ) : (
+          //INACTIVE
           <div
             key={i}
             style={{ width: `${itemWidth}px` }}
