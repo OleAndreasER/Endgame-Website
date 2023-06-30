@@ -7,7 +7,9 @@ export function UserProfile() {
   return (
     <>
       {currentUser ? (
-        <button onClick={logOut}>Log out</button>
+        <button className="standard-button" onClick={logOut}>
+          Log out
+        </button>
       ) : (
         <GoogleLogin
           onSuccess={logIn}

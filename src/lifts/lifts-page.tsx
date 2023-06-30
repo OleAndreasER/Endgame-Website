@@ -207,8 +207,12 @@ export function LiftsPage() {
               ))}
             </tbody>
           </table>
-          <button onClick={saveChanges}>Confirm</button>
-          <button onClick={() => fetchData()}>Cancel</button>
+          <button className="standard-button" onClick={saveChanges}>
+            Confirm
+          </button>
+          <button className="standard-button" onClick={() => fetchData()}>
+            Cancel
+          </button>
         </>
       ) : (
         <></>
