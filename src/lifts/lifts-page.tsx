@@ -12,11 +12,16 @@ import { setLifts as storeLifts } from "./lifts-access";
 export function LiftsPage() {
   const { currentUser } = useContext(UserContext);
   const [lifts, setLifts] = useState<Lifts | undefined>();
+  const [originalLifts, setOriginalLifts] = useState<Lifts | undefined>();
   const [program, setProgram] = useState<Program | undefined>();
 
   useEffect(() => {
     if (!currentUser) return;
-    getLifts(currentUser.id).then(setLifts);
+    getLifts(currentUser.id).then((lifts) => {
+      setLifts(lifts);
+      const originalLifts: Lifts = JSON.parse(JSON.stringify(lifts));
+      setOriginalLifts(originalLifts);
+    });
     getProgram(currentUser.id).then(setProgram);
   }, [currentUser]);
 
@@ -73,16 +78,16 @@ export function LiftsPage() {
 
   const handleWeightInput = (
     inputElement: EventTarget & HTMLInputElement,
-    oldWeight: number,
+    originalWeight: number,
     set: (weight: number) => void
   ): void => {
     const weight = Number(inputElement.value);
-    if (weight === oldWeight) return;
-    if (!isNaN(weight) && weight >= 0) {
+    if (weight === originalWeight || isNaN(weight) || weight < 0) {
+      inputElement.style.color = "var(--text-color)";
+      inputElement.value = `${originalWeight}`;
+    } else {
       inputElement.style.color = "var(--edited-color)";
       set(weight);
-    } else {
-      inputElement.value = `${oldWeight}`;
     }
   };
 
@@ -119,7 +124,7 @@ export function LiftsPage() {
                     onBlur={(e) =>
                       handleWeightInput(
                         e.target,
-                        lifts.bodyweight,
+                        originalLifts!.bodyweight,
                         setBodyweight
                       )
                     }
@@ -136,8 +141,10 @@ export function LiftsPage() {
                       className="text-input weight-input"
                       type="text"
                       onBlur={(e) =>
-                        handleWeightInput(e.target, liftStats.pr, (weight) =>
-                          setPr(weight, lift)
+                        handleWeightInput(
+                          e.target,
+                          originalLifts!.stats[lift].pr,
+                          (weight) => setPr(weight, lift)
                         )
                       }
                       defaultValue={liftStats.pr}
