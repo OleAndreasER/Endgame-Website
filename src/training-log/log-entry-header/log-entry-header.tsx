@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { LogContext } from "../log-provider";
+import { TrainingProfileContext } from "../../training-profile/training-profile-provider";
 
 const addImage = require("../../image/add.png");
 
@@ -8,14 +8,14 @@ interface Props {
 }
 
 export function LogEntryHeader({ label }: Props) {
-  const { addNextLogEntryToLog } = useContext(LogContext);
+  const { addNextLogEntry } = useContext(TrainingProfileContext);
   return (
     <div className="log-entry-header">
       {label === "1." ? (
         <>
           Next
           <img
-            onClick={addNextLogEntryToLog}
+            onClick={addNextLogEntry}
             id="add-image"
             alt="add"
             src={addImage}

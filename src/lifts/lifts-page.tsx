@@ -1,14 +1,11 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { Lifts } from "./lifts";
-import { getLifts } from "./lifts-access";
 import "./lift-page.css";
 import { UserContext } from "../authentication/user-provider";
 import { Cycle } from "./cycle/cycle";
 import { liftGroupColor } from "../config/lift-group-color";
-import { Program } from "../program/program";
-import { getProgram } from "../program/program-access";
-import { setLifts as storeLifts } from "./lifts-access";
 import { useImmer } from "use-immer";
+import { TrainingProfileContext } from "../training-profile/training-profile-provider";
 
 interface Inputs {
   [name: string]: {
@@ -18,42 +15,42 @@ interface Inputs {
 }
 
 export function LiftsPage() {
-  const { currentUser } = useContext(UserContext);
+  const {
+    lifts: originalLifts,
+    program,
+    setLifts: storeLifts,
+  } = useContext(TrainingProfileContext);
+
+  //These are the lifts as they are edited; originalLifts is only changed on "Confirm" button press.
   const [lifts, updateLifts] = useImmer<Lifts | undefined>(undefined);
-  const [originalLifts, setOriginalLifts] = useState<Lifts | undefined>();
-  const [program, setProgram] = useState<Program | undefined>();
   const [weightInputs, updateWeightInputs] = useImmer<Inputs | undefined>(
     undefined
   );
 
   useEffect(() => {
-    fetchData();
+    setUpInputs();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser]);
+  }, [originalLifts]);
 
-  // Sets up lifts, originalLifts and weightInputs.
-  const fetchData = (): void => {
-    if (!currentUser) return;
-    getLifts(currentUser.id).then((lifts) => {
-      updateLifts(lifts);
-      const originalLifts: Lifts = JSON.parse(JSON.stringify(lifts));
-      setOriginalLifts(originalLifts);
-      updateWeightInputs({});
-      updateWeightInputs((weightInputs) => {
-        if (!weightInputs) return;
-        weightInputs["bodyweight"] = {
-          value: `${lifts.bodyweight}`,
-          inputColor: "var(--text-color)",
-        };
-        for (const [lift, { pr }] of Object.entries(lifts.stats)) {
-          weightInputs[lift] = {
-            value: `${pr}`,
-            inputColor: "var(--text-color)",
-          };
-        }
-      });
-    });
-    getProgram(currentUser.id).then(setProgram);
+  // Sets up lifts and weightInputs.
+  const setUpInputs = (): void => {
+    if (!originalLifts) return;
+    const lifts: Lifts = JSON.parse(JSON.stringify(originalLifts));
+    updateLifts(lifts);
+    const weightInputs: Inputs = {};
+
+    if (!weightInputs) return;
+    weightInputs["bodyweight"] = {
+      value: `${lifts.bodyweight}`,
+      inputColor: "var(--text-color)",
+    };
+    for (const [lift, { pr }] of Object.entries(lifts.stats)) {
+      weightInputs[lift] = {
+        value: `${pr}`,
+        inputColor: "var(--text-color)",
+      };
+    }
+    updateWeightInputs(weightInputs);
   };
 
   const setLiftGroupPosition = (index: number, position: number): void => {
@@ -84,6 +81,7 @@ export function LiftsPage() {
     });
   };
 
+  //This happens when the user unselects (onBlur) the inputs.
   const commitInput = (
     inputName: string,
     originalWeight: number,
@@ -104,10 +102,10 @@ export function LiftsPage() {
     });
   };
 
+  // "Confirm" button
   const saveChanges = () => {
-    if (!currentUser) return;
     if (!lifts) return;
-    storeLifts(currentUser.id, lifts).then(() => fetchData());
+    storeLifts(lifts);
   };
 
   return (
@@ -210,7 +208,7 @@ export function LiftsPage() {
           <button className="standard-button" onClick={saveChanges}>
             Confirm
           </button>
-          <button className="standard-button" onClick={() => fetchData()}>
+          <button className="standard-button" onClick={() => setUpInputs()}>
             Cancel
           </button>
         </>

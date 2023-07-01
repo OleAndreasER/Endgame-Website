@@ -1,16 +1,22 @@
 import { useContext } from "react";
 import { LogEntryTable } from "./log-entry-table/log-entry-table";
 import "./training-log.css";
-import { LogContext } from "./log-provider";
 import { LogEntryHeader } from "./log-entry-header/log-entry-header";
+import { TrainingProfileContext } from "../training-profile/training-profile-provider";
 const upArrow = require("../image/up-arrow.png");
 
 export function TrainingLog() {
-  const { log, addNextLogEntry } = useContext(LogContext);
+  const { log, nextLog, addToNextLog } = useContext(TrainingProfileContext);
 
-  return (
+  return log !== undefined && nextLog !== undefined ? (
     <div className="training-log">
       <div>
+        {nextLog.map((logEntry, i) => (
+          <div key={i}>
+            <LogEntryHeader label={logEntry.label} />
+            <LogEntryTable logEntry={logEntry} />
+          </div>
+        ))}
         {log.map((logEntry, i) => (
           <div key={i}>
             <LogEntryHeader label={logEntry.label} />
@@ -18,12 +24,9 @@ export function TrainingLog() {
           </div>
         ))}
       </div>
-      <img
-        src={upArrow}
-        onClick={addNextLogEntry}
-        id="up-arrow"
-        alt="up-arrow"
-      />
+      <img src={upArrow} onClick={addToNextLog} id="up-arrow" alt="up-arrow" />
     </div>
+  ) : (
+    <></>
   );
 }

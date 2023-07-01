@@ -1,8 +1,10 @@
 import { useEffect, useState, useContext } from "react";
 import { getProfileNames, setActiveProfile } from "./profile-access";
 import { UserContext } from "../authentication/user-provider";
+import { TrainingProfileContext } from "./training-profile-provider";
 
 export function TrainingProfile() {
+  const { switchProfile } = useContext(TrainingProfileContext);
   const { currentUser } = useContext(UserContext);
   const [profileNames, setProfileNames] = useState<string[]>([]);
 
@@ -19,8 +21,7 @@ export function TrainingProfile() {
           <li
             key={i}
             onClick={() => {
-              if (!currentUser) return;
-              setActiveProfile(currentUser.id, profileName);
+              switchProfile(profileName);
             }}
           >
             {profileName}
