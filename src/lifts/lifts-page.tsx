@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { Lifts } from "./lifts";
 import "./lift-page.css";
 import { UserContext } from "../authentication/user-provider";
@@ -26,6 +26,7 @@ export function LiftsPage() {
   const [weightInputs, updateWeightInputs] = useImmer<Inputs | undefined>(
     undefined
   );
+  const [editedFields, setEditedFields] = useState<number>(0);
 
   useEffect(() => {
     setUpInputs();
@@ -91,10 +92,18 @@ export function LiftsPage() {
       if (!weightInputs) return;
       const weight = Number(weightInputs[inputName].value);
       if (weight === originalWeight || isNaN(weight) || weight < 0) {
+        if (weightInputs[inputName].inputColor === "var(--edited-color)") {
+          setEditedFields((editedFields) => editedFields - 1);
+        }
+
         weightInputs[inputName].inputColor = "var(--text-color)";
         weightInputs[inputName].value = `${originalWeight}`;
         set(originalWeight);
       } else {
+        if ((weightInputs[inputName].inputColor = "var(--text-color)")) {
+          setEditedFields((editedFields) => editedFields + 1);
+        }
+
         weightInputs[inputName].inputColor = "var(--edited-color)";
         weightInputs[inputName].value = `${weight}`;
         set(weight);
@@ -107,6 +116,8 @@ export function LiftsPage() {
     if (!lifts) return;
     storeLifts(lifts);
   };
+
+  const isEditing = (): boolean => editedFields > 0;
 
   return (
     <div className="lifts-page">
@@ -193,6 +204,14 @@ export function LiftsPage() {
                           originalLifts.stats[lift].cyclePosition
                         }
                         setActiveItemIndex={(position) => {
+                          //This assumes that setActiveItemIndex is only called when switching activeItemIndex.
+                          if (
+                            originalLifts.stats[lift].cyclePosition === position
+                          ) {
+                            setEditedFields((editedFields) => editedFields - 1);
+                          } else {
+                            setEditedFields((editedFields) => editedFields + 1);
+                          }
                           setLiftCyclePosition(lift, position);
                         }}
                         activeItemColor={`#${
@@ -205,12 +224,14 @@ export function LiftsPage() {
               ))}
             </tbody>
           </table>
-          <button className="standard-button" onClick={saveChanges}>
-            Confirm
-          </button>
-          <button className="standard-button" onClick={() => setUpInputs()}>
-            Cancel
-          </button>
+          <div style={{ visibility: isEditing() ? "visible" : "hidden" }}>
+            <button className="standard-button" onClick={saveChanges}>
+              Confirm
+            </button>
+            <button className="standard-button" onClick={() => setUpInputs()}>
+              Cancel
+            </button>
+          </div>
         </>
       ) : (
         <></>

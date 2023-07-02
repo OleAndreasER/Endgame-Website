@@ -66,6 +66,14 @@ export function TrainingProfileProvider({ children }: Props) {
   };
 
   useEffect(() => {
+    if (!currentUser) {
+      setNextLogSize(1);
+      updateNextLog(undefined);
+      updateLog(undefined);
+      setLifts(undefined);
+      setProgram(undefined);
+      setProfileName(undefined);
+    }
     fetchTrainingProfile();
   }, [currentUser]);
 
