@@ -120,7 +120,7 @@ export function LiftsPage() {
   const isEditing = (): boolean => editedFields > 0;
 
   return (
-    <div className="lifts-page">
+    <main className="lifts-page">
       {lifts !== undefined &&
       originalLifts !== undefined &&
       program !== undefined &&
@@ -236,6 +236,6 @@ export function LiftsPage() {
       ) : (
         <></>
       )}
-    </div>
+    </main>
   );
 }

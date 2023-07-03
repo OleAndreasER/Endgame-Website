@@ -1,13 +1,3 @@
-.link:hover {
-  color: gray;
-  cursor: pointer;
-}
-
-.link {
-  font-size: large;
-  user-select: none;
-}
-
 .current-page {
   text-decoration: underline;
 }

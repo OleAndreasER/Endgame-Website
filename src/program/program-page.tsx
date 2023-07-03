@@ -5,7 +5,7 @@ export function ProgramPage() {
   const { program } = useContext(TrainingProfileContext);
 
   return (
-    <>
+    <main>
       {program ? (
         <>
           <h1>Lift Group Cycles</h1>
@@ -43,6 +43,6 @@ export function ProgramPage() {
       ) : (
         <></>
       )}
-    </>
+    </main>
   );
 }

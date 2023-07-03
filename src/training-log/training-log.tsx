@@ -9,7 +9,7 @@ export function TrainingLog() {
   const { log, nextLog, addToNextLog } = useContext(TrainingProfileContext);
 
   return log !== undefined && nextLog !== undefined ? (
-    <div className="training-log">
+    <main className="training-log">
       <div>
         {nextLog.map((logEntry, i) => (
           <div key={i}>
@@ -25,7 +25,7 @@ export function TrainingLog() {
         ))}
       </div>
       <img src={upArrow} onClick={addToNextLog} id="up-arrow" alt="up-arrow" />
-    </div>
+    </main>
   ) : (
     <></>
   );

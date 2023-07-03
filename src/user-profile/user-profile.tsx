@@ -5,7 +5,7 @@ import { useContext } from "react";
 export function UserProfile() {
   const { currentUser, logIn, logOut } = useContext(UserContext);
   return (
-    <>
+    <main>
       {currentUser ? (
         <button className="standard-button" onClick={logOut}>
           Log out
@@ -16,6 +16,6 @@ export function UserProfile() {
           onError={() => console.log("Login failed.")}
         />
       )}
-    </>
+    </main>
   );
 }

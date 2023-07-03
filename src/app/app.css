@@ -38,7 +38,22 @@ html {
   padding: 5px;
   margin: 5px;
 }
+
 .standard-button:hover {
   cursor: pointer;
   background-color: var(--secondary-background-color);
+}
+
+.link:hover {
+  color: gray;
+  cursor: pointer;
+}
+
+.link {
+  font-size: large;
+  user-select: none;
+}
+
+main {
+  margin: 10px;
 }
