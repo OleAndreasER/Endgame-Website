@@ -28,6 +28,7 @@ interface TrainingProfileContextValue {
   switchProfile: (profileName: string) => Promise<void>;
   addToNextLog: () => Promise<void>;
   addNextLogEntry: () => Promise<void>;
+  resetNextLog: () => Promise<void>;
 }
 
 export const TrainingProfileContext =
@@ -115,6 +116,9 @@ export function TrainingProfileProvider({ children }: Props) {
           });
           setNextLogSize(1);
           getNextLogEntries(currentUser.id, 5).then(updateNextLog);
+        },
+        resetNextLog: async () => {
+          setNextLogSize(1);
         },
       }}
     >

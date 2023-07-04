@@ -6,7 +6,9 @@ import { TrainingProfileContext } from "../training-profile/training-profile-pro
 const upArrow = require("../image/up-arrow.png");
 
 export function TrainingLog() {
-  const { log, nextLog, addToNextLog } = useContext(TrainingProfileContext);
+  const { log, nextLog, addToNextLog, resetNextLog } = useContext(
+    TrainingProfileContext
+  );
 
   return log !== undefined && nextLog !== undefined ? (
     <main className="training-log">
@@ -24,7 +26,17 @@ export function TrainingLog() {
           </div>
         ))}
       </div>
-      <img src={upArrow} onClick={addToNextLog} id="up-arrow" alt="up-arrow" />
+      <img
+        src={upArrow}
+        onClick={addToNextLog}
+        id="up-arrow"
+        alt="more next logs"
+      />
+      {nextLog.length > 1 ? (
+        <img src={upArrow} onClick={resetNextLog} id="down-arrow" alt="reset" />
+      ) : (
+        <></>
+      )}
     </main>
   ) : (
     <></>

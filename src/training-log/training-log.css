@@ -17,15 +17,25 @@
   width: 40px;
 }
 
+#down-arrow {
+  position: fixed;
+  height: 50px;
+  width: 50px;
+  right: 15vw;
+  top: 100px;
+  transform: rotate(180deg);
+}
+
 #up-arrow {
   position: fixed;
   height: 50px;
   width: 50px;
-  left: 75vw;
+  right: 20vw;
   top: 100px;
 }
 
 #add-image:hover,
+#down-arrow:hover,
 #up-arrow:hover {
   cursor: pointer;
 }
