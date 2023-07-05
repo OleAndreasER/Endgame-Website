@@ -4,12 +4,7 @@ export interface Program {
     [lift: string]: number;
   };
   liftCycles: {
-    [lift: string]: {
-      lift: string;
-      percent: number;
-      reps: number;
-      setType: "PR" | "Work";
-    }[][];
+    [lift: string]: Sets[][];
   };
   isBodyweight: {
     [lift: string]: boolean;
@@ -17,4 +12,12 @@ export interface Program {
   progression: {
     [lift: string]: number;
   };
+}
+
+export interface Sets {
+  lift: string;
+  percent: number;
+  sets: number;
+  reps: number;
+  setType: "PR" | "Work";
 }

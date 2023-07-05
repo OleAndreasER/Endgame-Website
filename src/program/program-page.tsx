@@ -27,11 +27,12 @@ export function ProgramPage() {
               <table>
                 <tbody>
                   {sessions.map((sets) =>
-                    sets.map((set, i) => (
+                    sets.map((sets, i) => (
                       <tr key={i}>
-                        <th>{set.lift}</th>
-                        <td>{set.reps}</td>
-                        <td>{set.percent}%</td>
+                        <th>{sets.lift}</th>
+                        <td>{sets.sets}</td>
+                        <td>{sets.reps}</td>
+                        <td>{sets.percent}%</td>
                       </tr>
                     ))
                   )}
