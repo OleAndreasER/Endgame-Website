@@ -1,0 +1,15 @@
+.lift-group-cycle {
+  border: solid var(--text-color) 2px;
+  display: flex;
+  margin: 5px;
+}
+
+.lift-group-cycle-item {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  border: solid var(--text-color) 1px;
+  color: var(--background-color);
+}

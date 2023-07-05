@@ -1,7 +1,6 @@
 import { useEffect, useContext, useState } from "react";
 import { Lifts } from "./lifts";
 import "./lift-page.css";
-import { UserContext } from "../authentication/user-provider";
 import { Cycle } from "./cycle/cycle";
 import { liftGroupColor } from "../config/lift-group-color";
 import { useImmer } from "use-immer";

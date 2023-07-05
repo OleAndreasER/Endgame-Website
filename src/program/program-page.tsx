@@ -1,5 +1,7 @@
 import { useContext } from "react";
 import { TrainingProfileContext } from "../training-profile/training-profile-provider";
+import { LiftGroupCycle } from "./lift-group-cycle/lift-group-cycle";
+import { liftGroupColor } from "../config/lift-group-color";
 
 export function ProgramPage() {
   const { program } = useContext(TrainingProfileContext);
@@ -9,17 +11,14 @@ export function ProgramPage() {
       {program ? (
         <>
           <h1>Lift Group Cycles</h1>
-          <table className="lift-group-cycle-table">
-            <tbody>
-              {program.liftGroupCycles.map((liftGroupCycle, i) => (
-                <tr key={i}>
-                  {liftGroupCycle.map((lift, i) => (
-                    <td key={i}>{lift}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {program.liftGroupCycles.map((liftGroupCycle, i) => (
+            <LiftGroupCycle
+              key={i}
+              items={liftGroupCycle}
+              itemWidth={100}
+              backgroundColor={`#${liftGroupColor[i]}`}
+            />
+          ))}
           <h1>Lift Cycles</h1>
           {Object.entries(program.liftCycles).map(([lift, sessions], i) => (
             <div key={i}>
