@@ -12,15 +12,18 @@ export function LogEntryHeader({ label }: Props) {
   return (
     <div className="log-entry-header">
       {label === "1." ? (
-        <>
-          Next
-          <img
-            onClick={addNextLogEntry}
-            id="add-image"
-            alt="add"
-            src={addImage}
-          />
-        </>
+        <div className="grid">
+          <div></div>
+          <div className="middle">Next</div>
+          <div>
+            <img
+              onClick={addNextLogEntry}
+              id="add-image"
+              alt="add"
+              src={addImage}
+            />
+          </div>
+        </div>
       ) : (
         <>{label}</>
       )}
