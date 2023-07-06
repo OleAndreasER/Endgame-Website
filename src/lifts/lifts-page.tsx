@@ -125,19 +125,21 @@ export function LiftsPage() {
       program !== undefined &&
       weightInputs !== undefined ? (
         <>
-          {program.liftGroupCycles.map((items: string[], i) => (
-            <Cycle
-              key={i}
-              itemWidth={100}
-              items={items}
-              activeItemIndex={lifts.liftGroupPositions[i]}
-              originalActiveItemIndex={originalLifts.liftGroupPositions[i]}
-              setActiveItemIndex={(position) =>
-                setLiftGroupPosition(i, position)
-              }
-              activeItemColor={`#${liftGroupColor[i]}`}
-            />
-          ))}
+          <div className="lifts-lift-group-cycles">
+            {program.liftGroupCycles.map((items: string[], i) => (
+              <Cycle
+                key={i}
+                itemWidth={100}
+                items={items}
+                activeItemIndex={lifts.liftGroupPositions[i]}
+                originalActiveItemIndex={originalLifts.liftGroupPositions[i]}
+                setActiveItemIndex={(position) =>
+                  setLiftGroupPosition(i, position)
+                }
+                activeItemColor={`#${liftGroupColor[i]}`}
+              />
+            ))}
+          </div>
           <table className="lifts-table">
             <tbody>
               <tr>

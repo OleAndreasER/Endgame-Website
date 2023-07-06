@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { TrainingProfileContext } from "../training-profile/training-profile-provider";
 import { LiftGroupCycle } from "./lift-group-cycle/lift-group-cycle";
 import { liftGroupColor } from "../config/lift-group-color";
@@ -9,21 +9,21 @@ export function ProgramPage() {
   const { program } = useContext(TrainingProfileContext);
 
   return (
-    <main>
+    <main className="program-page">
       {program ? (
         <>
-          <h1>Lift Group Cycles</h1>
-          {program.liftGroupCycles.map((liftGroupCycle, i) => (
-            <LiftGroupCycle
-              key={i}
-              items={liftGroupCycle}
-              itemWidth={100}
-              backgroundColor={`#${liftGroupColor[i]}`}
-            />
-          ))}
-          <h1>Lift Cycles</h1>
+          <div className="lift-group-cycles">
+            {program.liftGroupCycles.map((liftGroupCycle, i) => (
+              <LiftGroupCycle
+                key={i}
+                items={liftGroupCycle}
+                itemWidth={100}
+                backgroundColor={`#${liftGroupColor[i]}`}
+              />
+            ))}
+          </div>
           {Object.entries(program.liftCycles).map(([lift, sessions], i) => (
-            <div key={i}>
+            <React.Fragment key={i}>
               <h2>{lift}</h2>
               <div className="program-lift">
                 {sessions.map((session, i) => (
@@ -34,7 +34,7 @@ export function ProgramPage() {
                   />
                 ))}
               </div>
-            </div>
+            </React.Fragment>
           ))}
         </>
       ) : (

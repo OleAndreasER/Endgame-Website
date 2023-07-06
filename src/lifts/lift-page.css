@@ -20,3 +20,9 @@
   width: 50%;
   font-size: x-large;
 }
+
+.lifts-lift-group-cycles {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
