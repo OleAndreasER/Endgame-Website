@@ -2,6 +2,8 @@ import { useContext } from "react";
 import { TrainingProfileContext } from "../training-profile/training-profile-provider";
 import { LiftGroupCycle } from "./lift-group-cycle/lift-group-cycle";
 import { liftGroupColor } from "../config/lift-group-color";
+import "./program-page.css";
+import { LiftSession } from "./lift-session/lift-session";
 
 export function ProgramPage() {
   const { program } = useContext(TrainingProfileContext);
@@ -23,20 +25,15 @@ export function ProgramPage() {
           {Object.entries(program.liftCycles).map(([lift, sessions], i) => (
             <div key={i}>
               <h2>{lift}</h2>
-              <table>
-                <tbody>
-                  {sessions.map((sets) =>
-                    sets.map((sets, i) => (
-                      <tr key={i}>
-                        <th>{sets.lift}</th>
-                        <td>{sets.sets}</td>
-                        <td>{sets.reps}</td>
-                        <td>{sets.percent}%</td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
+              <div className="program-lift">
+                {sessions.map((session, i) => (
+                  <LiftSession
+                    key={i}
+                    session={session}
+                    color={`#${liftGroupColor[program.liftGroup[lift]]}`}
+                  />
+                ))}
+              </div>
             </div>
           ))}
         </>

@@ -12,7 +12,7 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar />
-      <main>
+      <div>
         <Routes>
           <Route path="/" element={<TrainingLog />} />
           <Route path="/lifts" element={<LiftsPage />} />
@@ -20,7 +20,7 @@ function App() {
           <Route path="/training-profile" element={<TrainingProfile />} />
           <Route path="/user-profile" element={<UserProfile />} />
         </Routes>
-      </main>
+      </div>
     </BrowserRouter>
   );
 }

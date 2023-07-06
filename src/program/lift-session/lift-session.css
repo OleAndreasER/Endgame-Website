@@ -1,0 +1,30 @@
+.program-lift-session {
+  border-collapse: collapse;
+  border: 3px solid var(--text-color);
+  margin: 5px;
+}
+
+.program-lift-session th {
+  color: var(--background-color);
+}
+
+.program-lift-session th,
+.program-lift-session td {
+  text-align: center;
+  width: 100px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.program-lift-session .fail td {
+  background-color: red;
+}
+
+p {
+  text-align: center;
+}
+
+.program-lift-session tr:hover {
+  background-color: var(--secondary-background-color);
+  cursor: pointer;
+}
