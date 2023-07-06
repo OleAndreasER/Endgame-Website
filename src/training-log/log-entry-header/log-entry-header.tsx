@@ -12,10 +12,10 @@ export function LogEntryHeader({ label }: Props) {
   return (
     <div className="log-entry-header">
       {label === "1." ? (
-        <div className="grid">
-          <div></div>
+        <div className="triple-grid">
+          <div className="left" />
           <div className="middle">Next</div>
-          <div>
+          <div className="right">
             <img
               onClick={addNextLogEntry}
               id="add-image"

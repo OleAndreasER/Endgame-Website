@@ -8,7 +8,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 20px;
   height: 50px;
 }
 
@@ -17,41 +16,26 @@
   width: 40px;
 }
 
-#down-arrow {
-  position: fixed;
+.arrows {
+  position: sticky;
+  top: 70px;
+  display: flex;
+  flex-direction: column;
+}
+
+.down-arrow,
+.up-arrow {
   height: 50px;
   width: 50px;
-  right: 15vw;
-  top: 100px;
+  margin-left: 20px;
+}
+
+.down-arrow {
   transform: rotate(180deg);
 }
 
-#up-arrow {
-  position: fixed;
-  height: 50px;
-  width: 50px;
-  right: 20vw;
-  top: 100px;
-}
-
 #add-image:hover,
-#down-arrow:hover,
-#up-arrow:hover {
+.down-arrow:hover,
+.up-arrow:hover {
   cursor: pointer;
-}
-
-.log-entry-header .grid {
-  display: grid;
-  grid-template-columns: auto auto auto;
-  justify-content: space-between;
-}
-
-.log-entry-header .grid div {
-  display: flex;
-  width: 40px;
-  align-items: center;
-}
-
-.log-entry-header .grid .middle {
-  justify-content: center;
 }

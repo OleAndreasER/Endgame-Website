@@ -1,6 +1,9 @@
 .log-entry-table {
   border-collapse: collapse;
   border: 3px solid var(--text-color);
+  margin-bottom: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .log-entry-table th {

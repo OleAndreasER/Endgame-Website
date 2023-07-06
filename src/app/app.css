@@ -57,3 +57,41 @@ html {
 main {
   margin: 10px;
 }
+
+.triple-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+}
+
+/*
+.triple-grid > div {
+  border: 1px solid red;
+}
+*/
+
+.triple-grid > .left {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.triple-grid > .middle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.triple-grid > .right {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+img {
+  user-select: none;
+}

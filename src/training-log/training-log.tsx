@@ -11,8 +11,9 @@ export function TrainingLog() {
   );
 
   return log !== undefined && nextLog !== undefined ? (
-    <main className="training-log">
-      <div>
+    <main className="triple-grid">
+      <div />
+      <div className="training-log">
         {nextLog.map((logEntry, i) => (
           <div key={i}>
             <LogEntryHeader label={logEntry.label} />
@@ -26,17 +27,26 @@ export function TrainingLog() {
           </div>
         ))}
       </div>
-      <img
-        src={upArrow}
-        onClick={addToNextLog}
-        id="up-arrow"
-        alt="more next logs"
-      />
-      {nextLog.length > 1 ? (
-        <img src={upArrow} onClick={resetNextLog} id="down-arrow" alt="reset" />
-      ) : (
-        <></>
-      )}
+      <div>
+        <div className="arrows">
+          <img
+            src={upArrow}
+            onClick={addToNextLog}
+            className="up-arrow"
+            alt="more next logs"
+          />
+          {nextLog.length > 1 ? (
+            <img
+              src={upArrow}
+              onClick={resetNextLog}
+              className="down-arrow"
+              alt="reset"
+            />
+          ) : (
+            <></>
+          )}
+        </div>
+      </div>
     </main>
   ) : (
     <></>
