@@ -125,7 +125,7 @@ export function LiftsPage() {
       program !== undefined &&
       weightInputs !== undefined ? (
         <>
-          <div className="lifts-lift-group-cycles">
+          <div>
             {program.liftGroupCycles.map((items: string[], i) => (
               <Cycle
                 key={i}
