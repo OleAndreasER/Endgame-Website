@@ -2,31 +2,49 @@ import { useContext } from "react";
 import { TrainingProfileContext } from "../../training-profile/training-profile-provider";
 
 const addImage = require("../../image/add.png");
+const editImage = require("../../image/edit.png");
 
 interface Props {
   label: string;
+  time: LogEntryTime;
+  isHovered: boolean;
 }
 
-export function LogEntryHeader({ label }: Props) {
+export enum LogEntryTime {
+  Future,
+  Next,
+  Past,
+}
+
+export function LogEntryHeader({ label, time, isHovered }: Props) {
   const { addNextLogEntry } = useContext(TrainingProfileContext);
   return (
     <div className="log-entry-header">
-      {label === "1." ? (
-        <div className="triple-grid">
-          <div className="left" />
-          <div className="middle">Next</div>
-          <div className="right">
+      <div className="triple-grid">
+        <div className="left" />
+        <div className="middle">
+          {time === LogEntryTime.Next ? "Next" : label}
+        </div>
+        <div className="right">
+          {time === LogEntryTime.Next ? (
             <img
               onClick={addNextLogEntry}
-              id="add-image"
+              className="add-image"
               alt="add"
               src={addImage}
             />
-          </div>
+          ) : time === LogEntryTime.Past && isHovered ? (
+            <img
+              onClick={() => {}}
+              className="edit-image"
+              alt="edit"
+              src={editImage}
+            />
+          ) : (
+            <></>
+          )}
         </div>
-      ) : (
-        <>{label}</>
-      )}
+      </div>
     </div>
   );
 }

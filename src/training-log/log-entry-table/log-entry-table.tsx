@@ -1,9 +1,15 @@
 import { liftGroupColor } from "../../config/lift-group-color";
 import { LogEntry } from "../log-entry";
+import {
+  LogEntryHeader,
+  LogEntryTime,
+} from "../log-entry-header/log-entry-header";
 import "./log-entry-table.css";
+import { useState } from "react";
 
 interface Props {
   logEntry: LogEntry;
+  time: LogEntryTime;
 }
 
 const maybePlural = (x: number, unit: string): string => {
@@ -11,9 +17,19 @@ const maybePlural = (x: number, unit: string): string => {
   return `${x} ${unit}s`;
 };
 
-export function LogEntryTable({ logEntry }: Props) {
+export function LogEntryTable({ logEntry, time }: Props) {
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+
   return (
-    <>
+    <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <LogEntryHeader
+        isHovered={isHovered}
+        time={time}
+        label={logEntry.label}
+      />
       <table className="log-entry-table">
         <tbody>
           {Object.entries(logEntry.sessions).map(([lift, session], i) =>
@@ -34,6 +50,6 @@ export function LogEntryTable({ logEntry }: Props) {
           )}
         </tbody>
       </table>
-    </>
+    </div>
   );
 }

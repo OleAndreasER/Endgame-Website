@@ -1,7 +1,10 @@
 import { useContext } from "react";
 import { LogEntryTable } from "./log-entry-table/log-entry-table";
 import "./training-log.css";
-import { LogEntryHeader } from "./log-entry-header/log-entry-header";
+import {
+  LogEntryHeader,
+  LogEntryTime,
+} from "./log-entry-header/log-entry-header";
 import { TrainingProfileContext } from "../training-profile/training-profile-provider";
 const upArrow = require("../image/up-arrow.png");
 
@@ -14,17 +17,23 @@ export function TrainingLog() {
     <main className="triple-grid">
       <div />
       <div className="training-log">
-        {nextLog.map((logEntry, i) => (
-          <div key={i}>
-            <LogEntryHeader label={logEntry.label} />
-            <LogEntryTable logEntry={logEntry} />
-          </div>
-        ))}
+        {nextLog.map((logEntry, i) =>
+          logEntry.label === "1." ? (
+            <LogEntryTable
+              key={i}
+              logEntry={logEntry}
+              time={LogEntryTime.Next}
+            />
+          ) : (
+            <LogEntryTable
+              key={i}
+              logEntry={logEntry}
+              time={LogEntryTime.Future}
+            />
+          )
+        )}
         {log.map((logEntry, i) => (
-          <div key={i}>
-            <LogEntryHeader label={logEntry.label} />
-            <LogEntryTable logEntry={logEntry} />
-          </div>
+          <LogEntryTable key={i} logEntry={logEntry} time={LogEntryTime.Past} />
         ))}
       </div>
       <div>
