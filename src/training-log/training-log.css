@@ -11,10 +11,15 @@
   height: 50px;
 }
 
-.edit-image,
-.add-image {
+.standard-icon:first-child {
+  margin-left: 0;
+}
+
+.standard-icon {
   height: 40px;
   width: 40px;
+  margin-left: -3px;
+  margin-right: -3px;
 }
 
 .arrows {
@@ -35,8 +40,7 @@
   transform: rotate(180deg);
 }
 
-.edit-image:hover,
-.add-image:hover,
+.standard-icon,
 .down-arrow:hover,
 .up-arrow:hover {
   cursor: pointer;

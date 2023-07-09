@@ -3,11 +3,15 @@ import { TrainingProfileContext } from "../../training-profile/training-profile-
 
 const addImage = require("../../image/add.png");
 const editImage = require("../../image/edit.png");
+const confirmImage = require("../../image/confirm.png");
+const cancelImage = require("../../image/cancel.png");
 
 interface Props {
   label: string;
   time: LogEntryTime;
-  isHovered: boolean;
+  isHovering: boolean;
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
+  isEditing: boolean;
 }
 
 export enum LogEntryTime {
@@ -16,7 +20,13 @@ export enum LogEntryTime {
   Past,
 }
 
-export function LogEntryHeader({ label, time, isHovered }: Props) {
+export function LogEntryHeader({
+  label,
+  time,
+  isHovering,
+  setIsEditing,
+  isEditing,
+}: Props) {
   const { addNextLogEntry } = useContext(TrainingProfileContext);
   return (
     <div className="log-entry-header">
@@ -29,14 +39,29 @@ export function LogEntryHeader({ label, time, isHovered }: Props) {
           {time === LogEntryTime.Next ? (
             <img
               onClick={addNextLogEntry}
-              className="add-image"
+              className="standard-icon"
               alt="add"
               src={addImage}
             />
-          ) : time === LogEntryTime.Past && isHovered ? (
+          ) : time === LogEntryTime.Past && isEditing ? (
+            <>
+              <img
+                onClick={() => setIsEditing(false)}
+                className="standard-icon"
+                alt="confirm"
+                src={confirmImage}
+              />
+              <img
+                onClick={() => setIsEditing(false)}
+                className="standard-icon"
+                alt="cancel"
+                src={cancelImage}
+              />
+            </>
+          ) : time === LogEntryTime.Past && isHovering && !isEditing ? (
             <img
-              onClick={() => {}}
-              className="edit-image"
+              onClick={() => setIsEditing(true)}
+              className="standard-icon"
               alt="edit"
               src={editImage}
             />

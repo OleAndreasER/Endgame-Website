@@ -18,15 +18,18 @@ const maybePlural = (x: number, unit: string): string => {
 };
 
 export function LogEntryTable({ logEntry, time }: Props) {
-  const [isHovered, setIsHovered] = useState<boolean>(false);
+  const [isHovering, setIsHovering] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   return (
     <div
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
     >
       <LogEntryHeader
-        isHovered={isHovered}
+        setIsEditing={setIsEditing}
+        isEditing={isEditing}
+        isHovering={isHovering}
         time={time}
         label={logEntry.label}
       />
