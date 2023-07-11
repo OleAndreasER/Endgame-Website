@@ -7,6 +7,7 @@ import {
   addNextLogEntry,
   getLog,
   getNextLogEntries,
+  setLogEntry,
 } from "../training-log/log-access";
 import { getLifts } from "../lifts/lifts-access";
 import { getProgram } from "../program/program-access";
@@ -29,6 +30,7 @@ interface TrainingProfileContextValue {
   addToNextLog: () => Promise<void>;
   addNextLogEntry: () => Promise<void>;
   resetNextLog: () => Promise<void>;
+  setLogEntry: (n: number, logEntry: LogEntry) => Promise<void>;
 }
 
 export const TrainingProfileContext =
@@ -119,6 +121,12 @@ export function TrainingProfileProvider({ children }: Props) {
         },
         resetNextLog: async () => {
           setNextLogSize(1);
+        },
+        setLogEntry: async (n, logEntry) => {
+          if (!currentUser) return;
+          await setLogEntry(logEntry, n, currentUser.id).then(() =>
+            getLog(currentUser.id).then(updateLog)
+          );
         },
       }}
     >

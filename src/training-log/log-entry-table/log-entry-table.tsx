@@ -6,10 +6,12 @@ import {
   LogEntryTime,
 } from "../log-entry-header/log-entry-header";
 import "./log-entry-table.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { TrainingProfileContext } from "../../training-profile/training-profile-provider";
 
 interface Props {
   logEntry: LogEntry;
+  logEntryIndex?: number;
   time: LogEntryTime;
 }
 
@@ -29,7 +31,8 @@ const maybePlural = (x: number, unit: string): string => {
   return `${unit}s`;
 };
 
-export function LogEntryTable({ logEntry, time }: Props) {
+export function LogEntryTable({ logEntry, logEntryIndex, time }: Props) {
+  const { setLogEntry } = useContext(TrainingProfileContext);
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [logEntryEdit, updateLogEntryEdit] = useImmer<LogEntry | undefined>(
@@ -71,6 +74,11 @@ export function LogEntryTable({ logEntry, time }: Props) {
       onMouseLeave={() => setIsHovering(false)}
     >
       <LogEntryHeader
+        setLogEntry={() => {
+          if (logEntryEdit === undefined) return;
+          if (logEntryIndex === undefined) return;
+          setLogEntry(logEntryIndex, logEntryEdit);
+        }}
         setIsEditing={setIsEditing}
         isEditing={isEditing}
         isHovering={isHovering}

@@ -12,6 +12,7 @@ interface Props {
   isHovering: boolean;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
   isEditing: boolean;
+  setLogEntry: () => void;
 }
 
 export enum LogEntryTime {
@@ -26,6 +27,7 @@ export function LogEntryHeader({
   isHovering,
   setIsEditing,
   isEditing,
+  setLogEntry,
 }: Props) {
   const { addNextLogEntry } = useContext(TrainingProfileContext);
   return (
@@ -46,7 +48,10 @@ export function LogEntryHeader({
           ) : time === LogEntryTime.Past && isEditing ? (
             <>
               <img
-                onClick={() => setIsEditing(false)}
+                onClick={() => {
+                  setIsEditing(false);
+                  setLogEntry();
+                }}
                 className="standard-icon"
                 alt="confirm"
                 src={confirmImage}

@@ -1,10 +1,7 @@
 import { useContext } from "react";
 import { LogEntryTable } from "./log-entry-table/log-entry-table";
 import "./training-log.css";
-import {
-  LogEntryHeader,
-  LogEntryTime,
-} from "./log-entry-header/log-entry-header";
+import { LogEntryTime } from "./log-entry-header/log-entry-header";
 import { TrainingProfileContext } from "../training-profile/training-profile-provider";
 const upArrow = require("../image/up-arrow.png");
 
@@ -33,7 +30,12 @@ export function TrainingLog() {
           )
         )}
         {log.map((logEntry, i) => (
-          <LogEntryTable key={i} logEntry={logEntry} time={LogEntryTime.Past} />
+          <LogEntryTable
+            logEntryIndex={i}
+            key={i}
+            logEntry={logEntry}
+            time={LogEntryTime.Past}
+          />
         ))}
       </div>
       <div>
