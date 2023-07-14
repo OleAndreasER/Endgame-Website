@@ -4,6 +4,7 @@
   --secondary-background-color: #ebebeb;
   --edited-color: #238ed0;
   --error-color: red;
+  --not-set-color: #bcbcbc;
 }
 
 * {

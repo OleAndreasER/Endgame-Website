@@ -26,11 +26,6 @@ p {
   text-align: center;
 }
 
-.log-entry-table tr:hover {
-  background-color: var(--secondary-background-color);
-  cursor: pointer;
-}
-
 .log-entry-table .text-input {
   font-size: inherit;
 }

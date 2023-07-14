@@ -118,6 +118,7 @@ export function TrainingProfileProvider({ children }: Props) {
           });
           setNextLogSize(1);
           getNextLogEntries(currentUser.id, 5).then(updateNextLog);
+          getLifts(currentUser.id).then(setLifts);
         },
         resetNextLog: async () => {
           setNextLogSize(1);

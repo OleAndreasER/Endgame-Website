@@ -8,6 +8,7 @@ import {
 import "./log-entry-table.css";
 import { useContext, useEffect, useState } from "react";
 import { TrainingProfileContext } from "../../training-profile/training-profile-provider";
+import { FailButton } from "./fail-button/fail-button";
 
 interface Props {
   logEntry: LogEntry;
@@ -111,14 +112,28 @@ export function LogEntryTable({ logEntry, logEntryIndex, time }: Props) {
           <tbody>
             {Object.entries(logEntryEdit.sessions).map(([lift, session], i) =>
               session.map((sets, j) => (
-                <tr
-                  key={j}
-                  className={sets.wasSuccessfulPr === false ? "fail" : ""}
-                >
+                <tr key={j}>
                   <th style={{ backgroundColor: "#" + liftGroupColor[i] }}>
                     {sets.lift}
                   </th>
-                  <td>{sets.setType}</td>
+                  <td>
+                    {sets.setType}
+                    {sets.setType === "PR" &&
+                    sets.wasSuccessfulPr !== undefined ? (
+                      <FailButton
+                        wasSuccessfulPr={sets.wasSuccessfulPr}
+                        toggleWasSuccessfulPr={() => {
+                          updateLogEntryEdit((logEntryEdit) => {
+                            if (!logEntryEdit) return;
+                            logEntryEdit.sessions[lift][j].wasSuccessfulPr =
+                              !logEntryEdit.sessions[lift][j].wasSuccessfulPr;
+                          });
+                        }}
+                      />
+                    ) : (
+                      <></>
+                    )}
+                  </td>
                   <td>
                     <input
                       className="text-input"
