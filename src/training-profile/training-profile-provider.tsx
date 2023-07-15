@@ -125,6 +125,42 @@ export function TrainingProfileProvider({ children }: Props) {
         },
         setLogEntry: async (n, logEntry) => {
           if (!currentUser) return;
+          if (
+            n === 0 &&
+            log !== undefined &&
+            lifts !== undefined &&
+            program !== undefined &&
+            log.length > 0
+          ) {
+            // Have fails affect lift PRs and cycles
+            const newLifts: Lifts = JSON.parse(JSON.stringify(lifts));
+            const replacedEntry: LogEntry = log[0];
+            for (const [lift, session] of Object.entries(logEntry.sessions)) {
+              const oldWasSuccess: boolean = replacedEntry.sessions[lift].some(
+                (sets) => sets.wasSuccessfulPr
+              );
+              const newIsSuccess: boolean = session.some(
+                (sets) => sets.wasSuccessfulPr
+              );
+              const becomesFail: boolean = oldWasSuccess && !newIsSuccess;
+              const becomesSuccess: boolean = !oldWasSuccess && newIsSuccess;
+              const liftStats = newLifts.stats[lift];
+              if (becomesFail) {
+                liftStats.cycleLength += 1;
+                if (liftStats.cycleLength === 2) {
+                  liftStats.cyclePosition = 2;
+                }
+                liftStats.pr -= 2 * program.progression[lift];
+              } else if (becomesSuccess) {
+                liftStats.cycleLength -= 1;
+                liftStats.cyclePosition %= liftStats.cycleLength;
+                liftStats.pr += 2 * program.progression[lift];
+              }
+            }
+            await storeLifts(currentUser.id, newLifts).then(() =>
+              setLifts(newLifts)
+            );
+          }
           await setLogEntry(logEntry, n, currentUser.id).then(() =>
             getLog(currentUser.id).then(updateLog)
           );
