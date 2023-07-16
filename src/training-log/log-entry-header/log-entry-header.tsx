@@ -5,6 +5,7 @@ const addImage = require("../../image/add.png");
 const editImage = require("../../image/edit.png");
 const confirmImage = require("../../image/confirm.png");
 const cancelImage = require("../../image/cancel.png");
+const undoImage = require("../../image/undo.png");
 
 interface Props {
   label: string;
@@ -13,6 +14,7 @@ interface Props {
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
   isEditing: boolean;
   setLogEntry: () => void;
+  logEntryIndex?: number;
 }
 
 export enum LogEntryTime {
@@ -28,8 +30,9 @@ export function LogEntryHeader({
   setIsEditing,
   isEditing,
   setLogEntry,
+  logEntryIndex,
 }: Props) {
-  const { addNextLogEntry } = useContext(TrainingProfileContext);
+  const { addNextLogEntry, undoLogEntry } = useContext(TrainingProfileContext);
   return (
     <div className="log-entry-header">
       <div className="triple-grid">
@@ -64,12 +67,24 @@ export function LogEntryHeader({
               />
             </>
           ) : time === LogEntryTime.Past && isHovering && !isEditing ? (
-            <img
-              onClick={() => setIsEditing(true)}
-              className="standard-icon"
-              alt="edit"
-              src={editImage}
-            />
+            <>
+              <img
+                onClick={() => setIsEditing(true)}
+                className="standard-icon"
+                alt="edit"
+                src={editImage}
+              />
+              {logEntryIndex === 0 ? (
+                <img
+                  onClick={undoLogEntry}
+                  className="standard-icon"
+                  alt="undo"
+                  src={undoImage}
+                />
+              ) : (
+                <></>
+              )}
+            </>
           ) : (
             <></>
           )}

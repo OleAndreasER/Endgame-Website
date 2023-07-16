@@ -1,9 +1,13 @@
-import { get, post, put } from "../misc/fetch-methods";
+import { del, get, post, put } from "../misc/fetch-methods";
 import { LogEntry, Sets } from "./log-entry";
 
 export const addNextLogEntry = async (userId: string): Promise<LogEntry> => {
   const addedLogEntry: LogEntryFromServer = await post(`log/${userId}`);
   return toLogEntry(addedLogEntry);
+};
+
+export const undoLogEntry = async (userId: string): Promise<void> => {
+  await del(`log/${userId}`);
 };
 
 export const getLog = async (userId: string): Promise<LogEntry[]> => {

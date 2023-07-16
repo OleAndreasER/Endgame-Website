@@ -85,6 +85,7 @@ export function LogEntryTable({ logEntry, logEntryIndex, time }: Props) {
         isHovering={isHovering}
         time={time}
         label={logEntry.label}
+        logEntryIndex={logEntryIndex}
       />
       {logEntryEdit === undefined || logEntryInputs === undefined ? (
         <table className="log-entry-table">

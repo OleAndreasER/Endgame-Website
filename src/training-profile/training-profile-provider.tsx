@@ -8,6 +8,7 @@ import {
   getLog,
   getNextLogEntries,
   setLogEntry,
+  undoLogEntry,
 } from "../training-log/log-access";
 import { getLifts } from "../lifts/lifts-access";
 import { getProgram } from "../program/program-access";
@@ -31,6 +32,7 @@ interface TrainingProfileContextValue {
   addNextLogEntry: () => Promise<void>;
   resetNextLog: () => Promise<void>;
   setLogEntry: (n: number, logEntry: LogEntry) => Promise<void>;
+  undoLogEntry: () => Promise<void>;
 }
 
 export const TrainingProfileContext =
@@ -164,6 +166,12 @@ export function TrainingProfileProvider({ children }: Props) {
           await setLogEntry(logEntry, n, currentUser.id).then(() =>
             getLog(currentUser.id).then(updateLog)
           );
+        },
+        undoLogEntry: async () => {
+          if (!currentUser) return;
+          await undoLogEntry(currentUser.id);
+          await fetchLiftsProgramNextEntries();
+          await getLog(currentUser.id).then(updateLog);
         },
       }}
     >
