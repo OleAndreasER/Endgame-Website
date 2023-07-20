@@ -7,9 +7,13 @@ import { ProgramPage } from "../program/program-page";
 import { TrainingProfile } from "../training-profile/training-profile";
 import { UserProfile } from "../user-profile/user-profile";
 import { LiftsPage } from "../lifts/lifts-page";
+import { useContext } from "react";
+import { UserContext } from "../authentication/user-provider";
+import { LoginPage } from "../login/login-page";
 
 function App() {
-  return (
+  const { currentUser } = useContext(UserContext);
+  return currentUser ? (
     <BrowserRouter>
       <NavBar />
       <div>
@@ -22,6 +26,8 @@ function App() {
         </Routes>
       </div>
     </BrowserRouter>
+  ) : (
+    <LoginPage />
   );
 }
 

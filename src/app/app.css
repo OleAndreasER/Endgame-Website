@@ -29,8 +29,8 @@ html {
   box-sizing: border-box;
   border-bottom: 2px solid var(--text-color);
   background-color: transparent;
-  margin-left: 5px;
   margin-right: 0px;
+  margin-left: 0px;
 }
 
 .standard-button {
