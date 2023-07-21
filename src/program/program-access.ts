@@ -1,9 +1,19 @@
 import { get } from "../misc/fetch-methods";
-import { Program, Sets } from "./program";
+import { PresetProgram, Program, Sets } from "./program";
 
 export const getProgram = async (userId: string): Promise<Program> => {
   const programFromServer: ProgramFromServer = await get(`/program/${userId}`);
   return toProgram(programFromServer);
+};
+
+export const getPrograms = async (userId: string): Promise<PresetProgram[]> => {
+  const presetProgramsFromServer: PresetProgramFromServer[] = await get(
+    `/programs/${userId}`
+  );
+  return presetProgramsFromServer.map((presetProgramFromServer) => ({
+    ...presetProgramFromServer,
+    program: toProgram(presetProgramFromServer.program),
+  }));
 };
 
 interface ProgramFromServer {
@@ -25,6 +35,12 @@ interface SetFromServer {
   percent: number;
   reps: number;
   setType: "PR" | "Work";
+}
+
+interface PresetProgramFromServer {
+  name: String;
+  program: ProgramFromServer;
+  wasMadeByUser: boolean;
 }
 
 const toProgram = (program: ProgramFromServer): Program => {

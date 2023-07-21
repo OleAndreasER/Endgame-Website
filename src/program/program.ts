@@ -21,3 +21,9 @@ export interface Sets {
   reps: number;
   setType: "PR" | "Work";
 }
+
+export interface PresetProgram {
+  name: String;
+  program: Program;
+  wasMadeByUser: boolean;
+}
