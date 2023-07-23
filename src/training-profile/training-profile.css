@@ -1,9 +1,19 @@
 .training-profile-content {
   display: flex;
   flex-direction: column;
-  align-items: left;
+  align-items: center;
 }
+
 .training-profile-page {
   display: flex;
   justify-content: center;
+}
+
+.training-profile-name-input {
+  text-align: center;
+  width: 150px;
+}
+
+.training-profile-item {
+  font-size: 1.2em;
 }
