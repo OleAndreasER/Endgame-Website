@@ -10,9 +10,11 @@ const addImage = require("../image/add.png");
 const maxProfileNameLength = 15;
 
 export function TrainingProfile() {
-  const { switchProfile, profileName: activeProfileName } = useContext(
-    TrainingProfileContext
-  );
+  const {
+    switchProfile,
+    profileName: activeProfileName,
+    createNewProfile,
+  } = useContext(TrainingProfileContext);
   const { currentUser } = useContext(UserContext);
   const [profileNames, setProfileNames] = useState<string[]>([]);
   const [presetPrograms, setPresetPrograms] = useState<PresetProgram[]>([]);
@@ -95,9 +97,12 @@ export function TrainingProfile() {
             newProfileName.length > 0 &&
             newProfileName.length <= maxProfileNameLength ? (
               <button
-                onClick={() => {
+                onClick={async () => {
+                  if (newProfileName.length === 0) return;
+                  if (currentUser === undefined) return;
                   setIsAddingProfile(false);
-                  //TODO
+                  await createNewProfile(newProfileName, activeProgram.program);
+                  getProfileNames(currentUser.id).then(setProfileNames);
                 }}
                 className="standard-button"
               >

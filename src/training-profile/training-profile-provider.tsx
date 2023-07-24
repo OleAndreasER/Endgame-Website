@@ -13,7 +13,11 @@ import {
 import { getLifts } from "../lifts/lifts-access";
 import { getProgram } from "../program/program-access";
 import { setLifts as storeLifts } from "../lifts/lifts-access";
-import { getProfileName, setActiveProfile } from "./profile-access";
+import {
+  createNewProfile,
+  getProfileName,
+  setActiveProfile,
+} from "./profile-access";
 import { useImmer } from "use-immer";
 
 interface Props {
@@ -33,6 +37,7 @@ interface TrainingProfileContextValue {
   resetNextLog: () => Promise<void>;
   setLogEntry: (n: number, logEntry: LogEntry) => Promise<void>;
   undoLogEntry: () => Promise<void>;
+  createNewProfile: (name: string, program: Program) => Promise<void>;
 }
 
 export const TrainingProfileContext =
@@ -172,6 +177,10 @@ export function TrainingProfileProvider({ children }: Props) {
           await undoLogEntry(currentUser.id);
           await fetchLiftsProgramNextEntries();
           await getLog(currentUser.id).then(updateLog);
+        },
+        createNewProfile: async (name: string, program: Program) => {
+          if (!currentUser) return;
+          await createNewProfile(currentUser.id, name, program);
         },
       }}
     >

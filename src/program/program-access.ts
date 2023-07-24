@@ -43,6 +43,30 @@ interface PresetProgramFromServer {
   wasMadeByUser: boolean;
 }
 
+export const toServerProgram = (program: Program): ProgramFromServer => {
+  const liftCycleMap: { [lift: string]: SetFromServer[][] } = {};
+  for (const [lift, liftCycle] of Object.entries(program.liftCycles)) {
+    liftCycleMap[lift] = liftCycle.map((session) =>
+      session.flatMap((sets) =>
+        new Array(sets.sets).fill({
+          lift: sets.lift,
+          percent: sets.percent,
+          reps: sets.reps,
+          setType: sets.setType,
+        })
+      )
+    );
+  }
+
+  return {
+    isBodyweightMap: program.isBodyweight,
+    progressionMap: program.progression,
+    liftGroupCycles: program.liftGroupCycles,
+    liftsInOrder: Object.keys(program.liftCycles),
+    liftCycleMap: liftCycleMap,
+  };
+};
+
 const toProgram = (program: ProgramFromServer): Program => {
   const liftCyclesInOrder: { [lift: string]: Sets[][] } = {};
   for (const lift of program.liftsInOrder) {
