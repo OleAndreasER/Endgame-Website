@@ -15,7 +15,9 @@ import { getProgram } from "../program/program-access";
 import { setLifts as storeLifts } from "../lifts/lifts-access";
 import {
   createNewProfile,
+  deleteProfile,
   getProfileName,
+  renameProfile,
   setActiveProfile,
 } from "./profile-access";
 import { useImmer } from "use-immer";
@@ -38,6 +40,8 @@ interface TrainingProfileContextValue {
   setLogEntry: (n: number, logEntry: LogEntry) => Promise<void>;
   undoLogEntry: () => Promise<void>;
   createNewProfile: (name: string, program: Program) => Promise<void>;
+  deleteProfile: (profileName: string) => Promise<void>;
+  renameProfile: (oldName: string, newName: string) => Promise<void>;
 }
 
 export const TrainingProfileContext =
@@ -181,6 +185,14 @@ export function TrainingProfileProvider({ children }: Props) {
         createNewProfile: async (name: string, program: Program) => {
           if (!currentUser) return;
           await createNewProfile(currentUser.id, name, program);
+        },
+        deleteProfile: async (profileName: string) => {
+          if (!currentUser) return;
+          await deleteProfile(currentUser.id, profileName);
+        },
+        renameProfile: async (oldName: string, newName: string) => {
+          if (!currentUser) return;
+          await renameProfile(currentUser.id, oldName, newName);
         },
       }}
     >

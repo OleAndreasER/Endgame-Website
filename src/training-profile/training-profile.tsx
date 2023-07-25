@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { getProfileNames } from "./profile-access";
+import { deleteProfile, getProfileNames } from "./profile-access";
 import { UserContext } from "../authentication/user-provider";
 import { TrainingProfileContext } from "./training-profile-provider";
 import "./training-profile.css";
@@ -7,6 +7,8 @@ import { PresetProgram } from "../program/program";
 import { getPrograms } from "../program/program-access";
 
 const addImage = require("../image/add.png");
+const editImage = require("../image/edit.png");
+const cancelImage = require("../image/cancel.png");
 const maxProfileNameLength = 15;
 
 export function TrainingProfile() {
@@ -14,6 +16,8 @@ export function TrainingProfile() {
     switchProfile,
     profileName: activeProfileName,
     createNewProfile,
+    deleteProfile,
+    renameProfile,
   } = useContext(TrainingProfileContext);
   const { currentUser } = useContext(UserContext);
   const [profileNames, setProfileNames] = useState<string[]>([]);
@@ -34,27 +38,51 @@ export function TrainingProfile() {
     <main className="training-profile-page">
       <div className="training-profile-content">
         <h1>Training Profiles</h1>
-        {profileNames.map((profileName, i) =>
-          profileName === activeProfileName ? (
-            <div
-              style={{ color: "var(--edited-color)" }}
-              className="training-profile-item"
-              key={i}
-            >
-              {profileName}
-            </div>
-          ) : (
-            <div
-              className="link training-profile-item"
-              key={i}
-              onClick={() => {
-                switchProfile(profileName);
-              }}
-            >
-              {profileName}
-            </div>
-          )
-        )}
+        {profileNames.map((profileName, i) => (
+          <div className="triple-grid" key={i}>
+            {profileName === activeProfileName ? (
+              <>
+                <div />
+                <div
+                  style={{
+                    color: "var(--edited-color)",
+                  }}
+                  className="training-profile-item middle"
+                >
+                  {profileName}
+                </div>
+                <div className="right">
+                  <img src={editImage} className="standard-icon" />
+                  <img src={cancelImage} className="standard-icon" />
+                </div>
+              </>
+            ) : (
+              <>
+                <div />
+                <div
+                  className="link training-profile-item middle"
+                  onClick={() => {
+                    switchProfile(profileName);
+                  }}
+                >
+                  {profileName}
+                </div>
+                <div className="left">
+                  <img
+                    src={editImage}
+                    className="standard-icon"
+                    onClick={() => renameProfile(profileName, "trond4")}
+                  />
+                  <img
+                    src={cancelImage}
+                    className="standard-icon"
+                    onClick={() => deleteProfile(profileName)}
+                  />
+                </div>
+              </>
+            )}
+          </div>
+        ))}
 
         {isAddingProfile ? (
           <>

@@ -43,11 +43,21 @@ export const post = async (
   return response.json();
 };
 
-export const del = async (path: string): Promise<any> => {
+export const del = async (
+  path: string,
+  body: {} | undefined = undefined
+): Promise<any> => {
+  if (body === undefined) {
+    const response = await fetch(testUriBase + path, {
+      method: "DELETE",
+    });
+    return response.json();
+  }
+
   const response = await fetch(testUriBase + path, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
   });
-
   return response.json();
 };
