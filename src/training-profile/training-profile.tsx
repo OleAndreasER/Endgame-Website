@@ -52,8 +52,16 @@ export function TrainingProfile() {
                   {profileName}
                 </div>
                 <div className="right">
-                  <img src={editImage} className="standard-icon" />
-                  <img src={cancelImage} className="standard-icon" />
+                  <img
+                    src={editImage}
+                    className="standard-icon"
+                    onClick={() => renameProfile(profileName, "trond4")}
+                  />
+                  <img
+                    src={cancelImage}
+                    className="standard-icon"
+                    onClick={() => deleteProfile(profileName)}
+                  />
                 </div>
               </>
             ) : (

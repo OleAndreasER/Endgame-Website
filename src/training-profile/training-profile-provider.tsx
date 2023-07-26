@@ -60,6 +60,15 @@ export function TrainingProfileProvider({ children }: Props) {
   const [program, setProgram] = useState<Program | undefined>();
   const [profileName, setProfileName] = useState<string | undefined>();
 
+  const setEmptyState = () => {
+    setNextLogSize(1);
+    updateNextLog(undefined);
+    updateLog(undefined);
+    setLifts(undefined);
+    setProgram(undefined);
+    setProfileName(undefined);
+  };
+
   // These must be in sync.
   const fetchLiftsProgramNextEntries = async (): Promise<void> => {
     if (!currentUser) return;
@@ -72,22 +81,24 @@ export function TrainingProfileProvider({ children }: Props) {
   };
 
   const fetchTrainingProfile = async (): Promise<void> => {
-    fetchLiftsProgramNextEntries();
     if (!currentUser) return;
-    // Independent on next entries, lifts and program.
+    const isActiveProfile: boolean = await getProfileName(currentUser.id).then(
+      (profileName) => {
+        setProfileName(profileName);
+        return profileName !== null;
+      }
+    );
+    if (!isActiveProfile) {
+      setEmptyState();
+      return;
+    }
+    fetchLiftsProgramNextEntries();
+    // Independent of next entries, lifts and program.
     getLog(currentUser.id).then(updateLog);
-    getProfileName(currentUser.id).then(setProfileName);
   };
 
   useEffect(() => {
-    if (!currentUser) {
-      setNextLogSize(1);
-      updateNextLog(undefined);
-      updateLog(undefined);
-      setLifts(undefined);
-      setProgram(undefined);
-      setProfileName(undefined);
-    }
+    if (!currentUser) setEmptyState();
     fetchTrainingProfile();
   }, [currentUser]);
 
@@ -186,13 +197,18 @@ export function TrainingProfileProvider({ children }: Props) {
           if (!currentUser) return;
           await createNewProfile(currentUser.id, name, program);
         },
-        deleteProfile: async (profileName: string) => {
+        deleteProfile: async (name: string) => {
           if (!currentUser) return;
-          await deleteProfile(currentUser.id, profileName);
+          await deleteProfile(currentUser.id, name);
+          //On deleting active profile
+          if (profileName === name) {
+            setEmptyState();
+          }
         },
         renameProfile: async (oldName: string, newName: string) => {
           if (!currentUser) return;
           await renameProfile(currentUser.id, oldName, newName);
+          await getProfileName(currentUser.id).then(setProfileName);
         },
       }}
     >
