@@ -5,10 +5,9 @@ import { TrainingProfileContext } from "./training-profile-provider";
 import "./training-profile.css";
 import { PresetProgram } from "../program/program";
 import { getPrograms } from "../program/program-access";
+import { DeleteButton } from "./delete-button/delete-button";
 
 const addImage = require("../image/add.png");
-const editImage = require("../image/edit.png");
-const cancelImage = require("../image/cancel.png");
 const maxProfileNameLength = 15;
 
 export function TrainingProfile() {
@@ -35,59 +34,60 @@ export function TrainingProfile() {
   }, [currentUser]);
 
   return (
-    <main className="training-profile-page">
+    <main className="triple-grid">
+      {activeProfileName === undefined || currentUser === undefined ? (
+        <div />
+      ) : (
+        <div>
+          <div
+            style={{
+              borderLeft: "2px solid var(--edited-color)",
+              paddingLeft: "15px",
+              paddingBottom: "15px",
+              paddingTop: "5px",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "1.5em",
+                marginBottom: "10px",
+                marginTop: "10px",
+              }}
+            >
+              {activeProfileName}
+            </div>
+            <DeleteButton
+              onClick={async () => {
+                await deleteProfile(activeProfileName);
+                await getProfileNames(currentUser.id).then(setProfileNames);
+              }}
+            />
+            <button className="standard-button">Rename</button>
+          </div>
+        </div>
+      )}
       <div className="training-profile-content">
         <h1>Training Profiles</h1>
         {profileNames.map((profileName, i) => (
-          <div className="triple-grid" key={i}>
+          <div key={i}>
             {profileName === activeProfileName ? (
-              <>
-                <div />
-                <div
-                  style={{
-                    color: "var(--edited-color)",
-                  }}
-                  className="training-profile-item middle"
-                >
-                  {profileName}
-                </div>
-                <div className="right">
-                  <img
-                    src={editImage}
-                    className="standard-icon"
-                    onClick={() => renameProfile(profileName, "trond4")}
-                  />
-                  <img
-                    src={cancelImage}
-                    className="standard-icon"
-                    onClick={() => deleteProfile(profileName)}
-                  />
-                </div>
-              </>
+              <div
+                style={{
+                  color: "var(--edited-color)",
+                }}
+                className="training-profile-item"
+              >
+                {profileName}
+              </div>
             ) : (
-              <>
-                <div />
-                <div
-                  className="link training-profile-item middle"
-                  onClick={() => {
-                    switchProfile(profileName);
-                  }}
-                >
-                  {profileName}
-                </div>
-                <div className="left">
-                  <img
-                    src={editImage}
-                    className="standard-icon"
-                    onClick={() => renameProfile(profileName, "trond4")}
-                  />
-                  <img
-                    src={cancelImage}
-                    className="standard-icon"
-                    onClick={() => deleteProfile(profileName)}
-                  />
-                </div>
-              </>
+              <div
+                className="link training-profile-item"
+                onClick={() => {
+                  switchProfile(profileName);
+                }}
+              >
+                {profileName}
+              </div>
             )}
           </div>
         ))}
@@ -157,6 +157,7 @@ export function TrainingProfile() {
           />
         )}
       </div>
+      <div />
     </main>
   );
 }

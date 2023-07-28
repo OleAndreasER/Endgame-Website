@@ -1,0 +1,8 @@
+.delete-button:hover {
+  background-color: var(--error-color);
+}
+.delete-button {
+  background-color: var(--error-color);
+  color: var(--background-color);
+  margin: 0;
+}

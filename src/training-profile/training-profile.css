@@ -4,11 +4,6 @@
   align-items: center;
 }
 
-.training-profile-page {
-  display: flex;
-  justify-content: center;
-}
-
 .training-profile-name-input {
   text-align: center;
   width: 150px;
