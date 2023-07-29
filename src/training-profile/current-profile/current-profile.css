@@ -1,0 +1,22 @@
+.current-profile {
+  border-left: 2px solid var(--edited-color);
+  padding-left: 15px;
+  padding-bottom: 15px;
+  padding-top: 5px;
+}
+
+.current-profile .profile-name {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.current-profile .text-input {
+  width: 200px;
+  text-align: center;
+}
+
+.renaming-profile-name {
+  display: flex;
+  align-items: center;
+}

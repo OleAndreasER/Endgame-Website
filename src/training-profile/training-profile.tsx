@@ -1,14 +1,14 @@
 import { useEffect, useState, useContext } from "react";
-import { deleteProfile, getProfileNames } from "./profile-access";
+import { getProfileNames } from "./profile-access";
 import { UserContext } from "../authentication/user-provider";
 import { TrainingProfileContext } from "./training-profile-provider";
 import "./training-profile.css";
 import { PresetProgram } from "../program/program";
 import { getPrograms } from "../program/program-access";
-import { DeleteButton } from "./delete-button/delete-button";
+import { CurrentProfile } from "./current-profile/current-profile";
 
 const addImage = require("../image/add.png");
-const maxProfileNameLength = 15;
+export const maxProfileNameLength = 15;
 
 export function TrainingProfile() {
   const {
@@ -39,31 +39,11 @@ export function TrainingProfile() {
         <div />
       ) : (
         <div>
-          <div
-            style={{
-              borderLeft: "2px solid var(--edited-color)",
-              paddingLeft: "15px",
-              paddingBottom: "15px",
-              paddingTop: "5px",
+          <CurrentProfile
+            onProfileChange={() => {
+              getProfileNames(currentUser.id).then(setProfileNames);
             }}
-          >
-            <div
-              style={{
-                fontSize: "1.5em",
-                marginBottom: "10px",
-                marginTop: "10px",
-              }}
-            >
-              {activeProfileName}
-            </div>
-            <DeleteButton
-              onClick={async () => {
-                await deleteProfile(activeProfileName);
-                await getProfileNames(currentUser.id).then(setProfileNames);
-              }}
-            />
-            <button className="standard-button">Rename</button>
-          </div>
+          />
         </div>
       )}
       <div className="training-profile-content">
