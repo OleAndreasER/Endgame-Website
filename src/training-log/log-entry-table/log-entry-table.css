@@ -19,7 +19,7 @@
 }
 
 .log-entry-table .fail td {
-  background-color: red;
+  color: var(--error-color);
 }
 
 p {
