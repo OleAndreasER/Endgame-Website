@@ -1,27 +1,80 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { UserContext } from "../authentication/user-provider";
 import "./login-page.css";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 export function LoginPage() {
   const { logIn } = useContext(UserContext);
+  const [isSigningUp, setIsSigningUp] = useState<boolean>(false);
 
   return (
     <main className="login-page">
       <div className="login-box">
         <h1>Endgame</h1>
-        <input placeholder="Email" className="text-input login-input" />
-        <input
-          placeholder="Password"
-          className="text-input login-input"
-          type="password"
-        />
-        <button className="standard-button login-button">Log in</button>
+        <div className="bottom">
+          {isSigningUp ? (
+            <>
+              <input
+                placeholder="Username"
+                className="text-input login-input"
+              />
+              <input
+                placeholder="Email"
+                type="email"
+                className="text-input login-input"
+              />
+              <input
+                placeholder="Password"
+                className="text-input login-input"
+                type="password"
+              />
+              <input
+                placeholder="Confirm Password"
+                className="text-input login-input"
+                type="password"
+              />
+              <div className="adjacent login-buttons">
+                <button className="standard-button login-button">
+                  Sign up
+                </button>
+                <div
+                  onClick={() => setIsSigningUp(false)}
+                  className="link signin-button"
+                >
+                  Log in
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <input
+                placeholder="Email"
+                type="email"
+                className="text-input login-input"
+              />
+              <input
+                placeholder="Password"
+                className="text-input login-input"
+                type="password"
+              />
 
-        <GoogleLogin
-          onSuccess={logIn}
-          onError={() => console.log("Login failed.")}
-        />
+              <div className="adjacent login-buttons">
+                <button className="standard-button login-button">Log in</button>
+                <div
+                  onClick={() => setIsSigningUp(true)}
+                  className="link signin-button"
+                >
+                  Sign up
+                </div>
+              </div>
+
+              <GoogleLogin
+                onSuccess={logIn}
+                onError={() => console.log("Login failed.")}
+              />
+            </>
+          )}
+        </div>
       </div>
     </main>
   );

@@ -96,3 +96,10 @@ main {
 img {
   user-select: none;
 }
+
+.adjacent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
