@@ -12,7 +12,7 @@ export const setActiveProfile = (
   userId: string,
   profileName: string
 ): Promise<string> =>
-  put(`user/${userId}/active-training-profile`, { profileName });
+  put(`users/${userId}/active-training-profile`, { profileName });
 
 export const createNewProfile = (
   userId: string,
