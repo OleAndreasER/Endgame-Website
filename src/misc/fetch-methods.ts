@@ -1,7 +1,9 @@
 import { testUriBase } from "../config/uri";
 
 export const get = async (path: string): Promise<any> => {
-  const response = await fetch(testUriBase + path);
+  const response = await fetch(testUriBase + path, {
+    credentials: "include",
+  });
   return response.json();
 };
 
@@ -12,6 +14,7 @@ export const put = async (
   if (body === undefined) {
     const response = await fetch(testUriBase + path, {
       method: "PUT",
+      credentials: "include",
     });
     return response.json();
   }
@@ -20,6 +23,7 @@ export const put = async (
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
+    credentials: "include",
   });
   return response.json();
 };
@@ -31,6 +35,7 @@ export const post = async (
   if (body === undefined) {
     const response = await fetch(testUriBase + path, {
       method: "POST",
+      credentials: "include",
     });
     return response.json();
   }
@@ -39,6 +44,7 @@ export const post = async (
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
+    credentials: "include",
   });
   return response.json();
 };
@@ -50,6 +56,7 @@ export const del = async (
   if (body === undefined) {
     const response = await fetch(testUriBase + path, {
       method: "DELETE",
+      credentials: "include",
     });
     return response.json();
   }
@@ -58,6 +65,7 @@ export const del = async (
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
+    credentials: "include",
   });
   return response.json();
 };
