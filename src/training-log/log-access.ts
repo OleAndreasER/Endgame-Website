@@ -2,16 +2,16 @@ import { del, get, post, put } from "../misc/fetch-methods";
 import { LogEntry, Sets } from "./log-entry";
 
 export const addNextLogEntry = async (userId: string): Promise<LogEntry> => {
-  const addedLogEntry: LogEntryFromServer = await post(`log/${userId}`);
+  const addedLogEntry: LogEntryFromServer = await post(`log`);
   return toLogEntry(addedLogEntry);
 };
 
 export const undoLogEntry = async (userId: string): Promise<void> => {
-  await del(`log/${userId}`);
+  await del(`log`);
 };
 
 export const getLog = async (userId: string): Promise<LogEntry[]> => {
-  const logFromServer: LogEntryFromServer[] = await get(`log/${userId}`);
+  const logFromServer: LogEntryFromServer[] = await get(`log`);
   return logFromServer.map(toLogEntry);
 };
 
@@ -19,9 +19,7 @@ export const getNextLogEntries = async (
   userId: string,
   logs: number
 ): Promise<LogEntry[]> => {
-  const logFromServer: LogEntryFromServer[] = await get(
-    `log/next/${userId}/${logs}`
-  );
+  const logFromServer: LogEntryFromServer[] = await get(`log/next/${logs}`);
   return logFromServer.map(toLogEntry);
 };
 
@@ -30,7 +28,7 @@ export const setLogEntry = async (
   i: number,
   userId: string
 ): Promise<void> => {
-  await put(`log/${i}/${userId}`, {
+  await put(`log/${i}`, {
     ...logEntry,
     sessions: Object.entries(logEntry.sessions),
   });
