@@ -1,9 +1,8 @@
 import { UserContext } from "../authentication/user-provider";
-import { getProfileName } from "../training-profile/profile-access";
 import { TrainingProfileContext } from "../training-profile/training-profile-provider";
 import "./nav-bar.css";
 import { NavLink } from "./nav-link/nav-link";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 
 export function NavBar() {
   const { profileName } = useContext(TrainingProfileContext);

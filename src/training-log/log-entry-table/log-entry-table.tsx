@@ -67,6 +67,7 @@ export function LogEntryTable({ logEntry, logEntryIndex, time }: Props) {
     } else {
       updateLogEntryEdit(undefined);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEditing]);
 
   return (

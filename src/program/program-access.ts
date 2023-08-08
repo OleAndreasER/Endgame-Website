@@ -1,12 +1,12 @@
 import { get } from "../misc/fetch-methods";
 import { PresetProgram, Program, Sets } from "./program";
 
-export const getProgram = async (userId: string): Promise<Program> => {
+export const getProgram = async (): Promise<Program> => {
   const programFromServer: ProgramFromServer = await get(`program`);
   return toProgram(programFromServer);
 };
 
-export const getPrograms = async (userId: string): Promise<PresetProgram[]> => {
+export const getPrograms = async (): Promise<PresetProgram[]> => {
   const presetProgramsFromServer: PresetProgramFromServer[] = await get(
     `programs`
   );

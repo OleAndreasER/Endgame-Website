@@ -15,8 +15,6 @@ export function TrainingProfile() {
     switchProfile,
     profileName: activeProfileName,
     createNewProfile,
-    deleteProfile,
-    renameProfile,
   } = useContext(TrainingProfileContext);
   const { currentUser } = useContext(UserContext);
   const [profileNames, setProfileNames] = useState<string[]>([]);
@@ -29,8 +27,8 @@ export function TrainingProfile() {
 
   useEffect(() => {
     if (!currentUser) return;
-    getProfileNames(currentUser.id).then(setProfileNames);
-    getPrograms(currentUser.id).then(setPresetPrograms);
+    getProfileNames().then(setProfileNames);
+    getPrograms().then(setPresetPrograms);
   }, [currentUser]);
 
   return (
@@ -41,7 +39,7 @@ export function TrainingProfile() {
         <div>
           <CurrentProfile
             onProfileChange={() => {
-              getProfileNames(currentUser.id).then(setProfileNames);
+              getProfileNames().then(setProfileNames);
             }}
           />
         </div>
@@ -118,7 +116,7 @@ export function TrainingProfile() {
                   if (currentUser === undefined) return;
                   setIsAddingProfile(false);
                   await createNewProfile(newProfileName, activeProgram.program);
-                  getProfileNames(currentUser.id).then(setProfileNames);
+                  getProfileNames().then(setProfileNames);
                 }}
                 className="standard-button"
               >

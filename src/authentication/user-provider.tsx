@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { User } from "./user";
-import jwt_decode from "jwt-decode";
-import { CredentialResponse, googleLogout } from "@react-oauth/google";
+import { getUsername, logIn, logOut, signIn } from "./user-access";
 
 interface Props {
   children: JSX.Element;
@@ -9,8 +8,9 @@ interface Props {
 
 interface UserContextValue {
   currentUser: User | undefined;
-  logIn: (credentalToken: CredentialResponse) => void;
-  logOut: () => void;
+  logIn: (email: string, password: string) => Promise<void>;
+  signIn: (username: string, email: string, password: string) => Promise<void>;
+  logOut: () => Promise<void>;
 }
 
 export const UserContext = React.createContext<UserContextValue>(
@@ -21,16 +21,15 @@ export const UserProvider = ({ children }: Props) => {
   const [currentUser, setCurrentUser] = useState<User | undefined>();
 
   useEffect(() => {
-    const id = localStorage.getItem("userId");
     const name = localStorage.getItem("userName");
-    if (id !== null && name !== null) {
-      setCurrentUser({ id, name });
+    if (name !== null) {
+      setCurrentUser({ name });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setUserPersistently = (user: User) => {
     setCurrentUser(user);
-    localStorage.setItem("userId", user.id);
     localStorage.setItem("userName", user.name);
   };
 
@@ -38,16 +37,19 @@ export const UserProvider = ({ children }: Props) => {
     <UserContext.Provider
       value={{
         currentUser,
-        logIn: (credentialToken) => {
-          if (credentialToken.credential) {
-            const userInfo: any = jwt_decode(credentialToken.credential);
-            setUserPersistently({ name: userInfo.name, id: userInfo.sub });
-          }
+        logIn: async (email, password) => {
+          console.log(await logIn(email, password));
+          const name: string = await getUsername();
+          setUserPersistently({ name });
         },
-        logOut: () => {
-          googleLogout();
+        signIn: async (username, email, password) => {
+          console.log(await signIn(username, email, password));
+          const name: string = await getUsername();
+          setUserPersistently({ name });
+        },
+        logOut: async () => {
+          await logOut();
           setCurrentUser(undefined);
-          localStorage.removeItem("userId");
           localStorage.removeItem("userName");
         },
       }}

@@ -74,15 +74,15 @@ export function TrainingProfileProvider({ children }: Props) {
     if (!currentUser) return;
     setNextLogSize(1);
     await Promise.all([
-      getLifts(currentUser.id).then(setLifts),
-      getNextLogEntries(currentUser.id, 5).then(updateNextLog),
-      getProgram(currentUser.id).then(setProgram),
+      getLifts().then(setLifts),
+      getNextLogEntries(5).then(updateNextLog),
+      getProgram().then(setProgram),
     ]);
   };
 
   const fetchTrainingProfile = async (): Promise<void> => {
     if (!currentUser) return;
-    const isActiveProfile: boolean = await getProfileName(currentUser.id).then(
+    const isActiveProfile: boolean = await getProfileName().then(
       (profileName) => {
         setProfileName(profileName);
         return profileName !== null;
@@ -94,12 +94,13 @@ export function TrainingProfileProvider({ children }: Props) {
     }
     fetchLiftsProgramNextEntries();
     // Independent of next entries, lifts and program.
-    getLog(currentUser.id).then(updateLog);
+    getLog().then(updateLog);
   };
 
   useEffect(() => {
     if (!currentUser) setEmptyState();
     fetchTrainingProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
 
   return (
@@ -112,12 +113,12 @@ export function TrainingProfileProvider({ children }: Props) {
         profileName,
         setLifts: async (lifts: Lifts): Promise<void> => {
           if (!currentUser) return;
-          await storeLifts(currentUser.id, lifts);
+          await storeLifts(lifts);
           await fetchLiftsProgramNextEntries();
         },
         switchProfile: async (profileName: string): Promise<void> => {
           if (!currentUser) return;
-          await setActiveProfile(currentUser.id, profileName);
+          await setActiveProfile(profileName);
           await fetchTrainingProfile();
         },
         addToNextLog: async () => {
@@ -125,22 +126,20 @@ export function TrainingProfileProvider({ children }: Props) {
           if (!nextLog) return;
           setNextLogSize((nextLogSize) => nextLogSize + 1);
           if (nextLogSize >= nextLog.length) {
-            await getNextLogEntries(currentUser.id, nextLogSize + 5).then(
-              updateNextLog
-            );
+            await getNextLogEntries(nextLogSize + 5).then(updateNextLog);
           }
         },
         addNextLogEntry: async () => {
           if (!currentUser) return;
           // Program can not be affected by adding next entry.
-          const addedEntry: LogEntry = await addNextLogEntry(currentUser.id);
+          const addedEntry: LogEntry = await addNextLogEntry();
           updateLog((log) => {
             if (log === undefined) return;
             log.unshift(addedEntry);
           });
           setNextLogSize(1);
-          getNextLogEntries(currentUser.id, 5).then(updateNextLog);
-          getLifts(currentUser.id).then(setLifts);
+          getNextLogEntries(5).then(updateNextLog);
+          getLifts().then(setLifts);
         },
         resetNextLog: async () => {
           setNextLogSize(1);
@@ -179,27 +178,23 @@ export function TrainingProfileProvider({ children }: Props) {
                 liftStats.pr += 2 * program.progression[lift];
               }
             }
-            await storeLifts(currentUser.id, newLifts).then(() =>
-              setLifts(newLifts)
-            );
+            await storeLifts(newLifts).then(() => setLifts(newLifts));
           }
-          await setLogEntry(logEntry, n, currentUser.id).then(() =>
-            getLog(currentUser.id).then(updateLog)
-          );
+          await setLogEntry(logEntry, n).then(() => getLog().then(updateLog));
         },
         undoLogEntry: async () => {
           if (!currentUser) return;
-          await undoLogEntry(currentUser.id);
+          await undoLogEntry();
           await fetchLiftsProgramNextEntries();
-          await getLog(currentUser.id).then(updateLog);
+          await getLog().then(updateLog);
         },
         createNewProfile: async (name: string, program: Program) => {
           if (!currentUser) return;
-          await createNewProfile(currentUser.id, name, program);
+          await createNewProfile(name, program);
         },
         deleteProfile: async (name: string) => {
           if (!currentUser) return;
-          await deleteProfile(currentUser.id, name);
+          await deleteProfile(name);
           //On deleting active profile
           if (profileName === name) {
             setEmptyState();
@@ -207,8 +202,8 @@ export function TrainingProfileProvider({ children }: Props) {
         },
         renameProfile: async (oldName: string, newName: string) => {
           if (!currentUser) return;
-          await renameProfile(currentUser.id, oldName, newName);
-          await getProfileName(currentUser.id).then(setProfileName);
+          await renameProfile(oldName, newName);
+          await getProfileName().then(setProfileName);
         },
       }}
     >

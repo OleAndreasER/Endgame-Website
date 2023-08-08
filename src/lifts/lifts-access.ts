@@ -40,10 +40,10 @@ const toStats = (lifts: Lifts): Stats => {
   };
 };
 
-export const getLifts = async (userId: string): Promise<Lifts> => {
+export const getLifts = async (): Promise<Lifts> => {
   const stats: Stats = await get(`stats`);
   return toLifts(stats);
 };
 
-export const setLifts = (userId: string, lifts: Lifts): Promise<void> =>
+export const setLifts = (lifts: Lifts): Promise<void> =>
   put(`stats`, toStats(lifts));

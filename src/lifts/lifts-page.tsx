@@ -111,9 +111,10 @@ export function LiftsPage() {
   };
 
   // "Confirm" button
-  const saveChanges = () => {
+  const saveChanges = async () => {
     if (!lifts) return;
-    storeLifts(lifts);
+    await storeLifts(lifts);
+    setEditedFields(0);
   };
 
   const isEditing = (): boolean => editedFields > 0;

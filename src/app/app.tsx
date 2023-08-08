@@ -9,7 +9,7 @@ import { UserProfile } from "../user-profile/user-profile";
 import { LiftsPage } from "../lifts/lifts-page";
 import { useContext } from "react";
 import { UserContext } from "../authentication/user-provider";
-import { LoginPage } from "../login/login-page";
+import { LoginPage } from "../authentication/login/login-page";
 
 function App() {
   const { currentUser } = useContext(UserContext);

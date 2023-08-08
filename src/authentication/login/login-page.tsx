@@ -1,14 +1,17 @@
-import { GoogleLogin } from "@react-oauth/google";
-import { UserContext } from "../authentication/user-provider";
+import { UserContext } from "../user-provider";
 import "./login-page.css";
 import { useContext, useState } from "react";
-import { login } from "./login-access";
 
 export function LoginPage() {
-  const { logIn } = useContext(UserContext);
+  const { logIn, signIn } = useContext(UserContext);
   const [isSigningUp, setIsSigningUp] = useState<boolean>(false);
   const [loginEmail, setLoginEmail] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
+  const [signInEmail, setSignInEmail] = useState<string>("");
+  const [signInUsername, setSignInUsername] = useState<string>("");
+  const [signInPassword, setSignInPassword] = useState<string>("");
+  const [signInPasswordConfirm, setSignInPasswordConfirm] =
+    useState<string>("");
 
   return (
     <main className="login-page">
@@ -20,24 +23,42 @@ export function LoginPage() {
               <input
                 placeholder="Username"
                 className="text-input login-input"
+                onChange={(e) => {
+                  setSignInUsername(e.target.value);
+                }}
               />
               <input
                 placeholder="Email"
                 type="email"
                 className="text-input login-input"
+                onChange={(e) => {
+                  setSignInEmail(e.target.value);
+                }}
               />
               <input
                 placeholder="Password"
                 className="text-input login-input"
                 type="password"
+                onChange={(e) => {
+                  setSignInPassword(e.target.value);
+                }}
               />
               <input
                 placeholder="Confirm Password"
                 className="text-input login-input"
                 type="password"
+                onChange={(e) => {
+                  setSignInPasswordConfirm(e.target.value);
+                }}
               />
               <div className="adjacent login-buttons">
-                <button className="standard-button login-button">
+                <button
+                  className="standard-button login-button"
+                  onClick={() => {
+                    if (signInPassword !== signInPasswordConfirm) return;
+                    signIn(signInUsername, signInEmail, signInPassword);
+                  }}
+                >
                   Sign up
                 </button>
                 <div
@@ -70,8 +91,8 @@ export function LoginPage() {
 
               <div className="adjacent login-buttons">
                 <button
-                  onClick={async () => {
-                    console.log(await login(loginEmail, loginPassword));
+                  onClick={() => {
+                    logIn(loginEmail, loginPassword);
                   }}
                   className="standard-button login-button"
                 >
@@ -84,11 +105,6 @@ export function LoginPage() {
                   Sign up
                 </div>
               </div>
-
-              <GoogleLogin
-                onSuccess={logIn}
-                onError={() => console.log("Login failed.")}
-              />
             </>
           )}
         </div>
