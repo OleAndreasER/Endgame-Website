@@ -1,10 +1,11 @@
+import { useKeyDown } from "../../misc/useKeyDown";
 import { UserContext } from "../user-provider";
 import "./login-page.css";
 import { useContext, useState } from "react";
 
 export function LoginPage() {
   const { logIn, signIn } = useContext(UserContext);
-  const [isSigningUp, setIsSigningUp] = useState<boolean>(false);
+  const [isSigningIn, setIsSigningIn] = useState<boolean>(false);
   const [loginEmail, setLoginEmail] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
   const [signInEmail, setSignInEmail] = useState<string>("");
@@ -13,12 +14,33 @@ export function LoginPage() {
   const [signInPasswordConfirm, setSignInPasswordConfirm] =
     useState<string>("");
 
+  useKeyDown(
+    () => {
+      if (isSigningIn) {
+        if (signInPassword !== signInPasswordConfirm) return;
+        signIn(signInUsername, signInEmail, signInPassword);
+      } else {
+        logIn(loginEmail, loginPassword);
+      }
+    },
+    ["Enter"],
+    [
+      isSigningIn,
+      signInPassword,
+      signInPasswordConfirm,
+      signInUsername,
+      signInEmail,
+      loginEmail,
+      loginPassword,
+    ]
+  );
+
   return (
     <main className="login-page">
       <div className="login-box">
         <h1>Endgame</h1>
         <div className="bottom">
-          {isSigningUp ? (
+          {isSigningIn ? (
             <>
               <input
                 placeholder="Username"
@@ -62,7 +84,7 @@ export function LoginPage() {
                   Sign up
                 </button>
                 <div
-                  onClick={() => setIsSigningUp(false)}
+                  onClick={() => setIsSigningIn(false)}
                   className="link signin-button"
                 >
                   Log in
@@ -99,7 +121,7 @@ export function LoginPage() {
                   Log in
                 </button>
                 <div
-                  onClick={() => setIsSigningUp(true)}
+                  onClick={() => setIsSigningIn(true)}
                   className="link signin-button"
                 >
                   Sign up
