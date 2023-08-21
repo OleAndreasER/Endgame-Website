@@ -27,11 +27,11 @@ interface Props {
 }
 
 interface TrainingProfileContextValue {
-  profileName: string | undefined;
-  log: LogEntry[] | undefined;
-  nextLog: LogEntry[] | undefined;
-  lifts: Lifts | undefined;
-  program: Program | undefined;
+  profileName: string | null;
+  log: LogEntry[] | null;
+  nextLog: LogEntry[] | null;
+  lifts: Lifts | null;
+  program: Program | null;
   setLifts: (lifts: Lifts) => Promise<void>;
   switchProfile: (profileName: string) => Promise<void>;
   addToNextLog: () => Promise<void>;
@@ -52,21 +52,21 @@ export const TrainingProfileContext =
 export function TrainingProfileProvider({ children }: Props) {
   const { currentUser } = useContext(UserContext);
 
-  const [log, updateLog] = useImmer<LogEntry[] | undefined>(undefined);
-  const [nextLog, updateNextLog] = useImmer<LogEntry[] | undefined>(undefined);
+  const [log, updateLog] = useImmer<LogEntry[] | null>(null);
+  const [nextLog, updateNextLog] = useImmer<LogEntry[] | null>(null);
   const [nextLogSize, setNextLogSize] = useState<number>(1);
 
-  const [lifts, setLifts] = useState<Lifts | undefined>();
-  const [program, setProgram] = useState<Program | undefined>();
-  const [profileName, setProfileName] = useState<string | undefined>();
+  const [lifts, setLifts] = useState<Lifts | null>(null);
+  const [program, setProgram] = useState<Program | null>(null);
+  const [profileName, setProfileName] = useState<string | null>(null);
 
   const setEmptyState = () => {
     setNextLogSize(1);
-    updateNextLog(undefined);
-    updateLog(undefined);
-    setLifts(undefined);
-    setProgram(undefined);
-    setProfileName(undefined);
+    updateNextLog(null);
+    updateLog(null);
+    setLifts(null);
+    setProgram(null);
+    setProfileName(null);
   };
 
   // These must be in sync.
@@ -107,7 +107,7 @@ export function TrainingProfileProvider({ children }: Props) {
     <TrainingProfileContext.Provider
       value={{
         log,
-        nextLog: nextLog ? nextLog.slice(0, nextLogSize).reverse() : undefined,
+        nextLog: nextLog ? nextLog.slice(0, nextLogSize).reverse() : null,
         lifts,
         program,
         profileName,
@@ -132,9 +132,10 @@ export function TrainingProfileProvider({ children }: Props) {
         addNextLogEntry: async () => {
           if (!currentUser) return;
           // Program can not be affected by adding next entry.
-          const addedEntry: LogEntry = await addNextLogEntry();
+          const addedEntry: LogEntry | null = await addNextLogEntry();
+          if (addedEntry === null) return;
           updateLog((log) => {
-            if (log === undefined) return;
+            if (log === null) return;
             log.unshift(addedEntry);
           });
           setNextLogSize(1);
@@ -148,9 +149,9 @@ export function TrainingProfileProvider({ children }: Props) {
           if (!currentUser) return;
           if (
             n === 0 &&
-            log !== undefined &&
-            lifts !== undefined &&
-            program !== undefined &&
+            log !== null &&
+            lifts !== null &&
+            program !== null &&
             log.length > 0
           ) {
             // Have fails affect lift PRs and cycles

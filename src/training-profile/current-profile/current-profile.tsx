@@ -17,7 +17,7 @@ export function CurrentProfile({ onProfileChange }: Props) {
   );
   const [rename, setRename] = useState<string | undefined>(undefined);
 
-  if (profileName === undefined) return <></>;
+  if (profileName === null) return <></>;
 
   if (rename !== undefined)
     return (

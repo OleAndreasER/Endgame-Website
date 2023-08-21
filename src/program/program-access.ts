@@ -1,15 +1,17 @@
 import { get } from "../misc/fetch-methods";
 import { PresetProgram, Program, Sets } from "./program";
 
-export const getProgram = async (): Promise<Program> => {
-  const programFromServer: ProgramFromServer = await get(`program`);
+export const getProgram = async (): Promise<Program | null> => {
+  const programFromServer: ProgramFromServer | null = await get(`program`);
+  if (programFromServer === null) return null;
   return toProgram(programFromServer);
 };
 
-export const getPrograms = async (): Promise<PresetProgram[]> => {
-  const presetProgramsFromServer: PresetProgramFromServer[] = await get(
+export const getPrograms = async (): Promise<PresetProgram[] | null> => {
+  const presetProgramsFromServer: PresetProgramFromServer[] | null = await get(
     `programs`
   );
+  if (presetProgramsFromServer === null) return null;
   return presetProgramsFromServer.map((presetProgramFromServer) => ({
     ...presetProgramFromServer,
     program: toProgram(presetProgramFromServer.program),

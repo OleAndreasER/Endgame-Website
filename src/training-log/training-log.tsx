@@ -10,7 +10,7 @@ export function TrainingLog() {
     TrainingProfileContext
   );
 
-  return log !== undefined && nextLog !== undefined ? (
+  return log !== null && nextLog !== null ? (
     <main className="triple-grid">
       <div />
       <div className="training-log">

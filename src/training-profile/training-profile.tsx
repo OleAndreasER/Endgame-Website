@@ -10,6 +10,9 @@ import { CurrentProfile } from "./current-profile/current-profile";
 const addImage = require("../image/add.png");
 export const maxProfileNameLength = 15;
 
+const maybeToList = (maybe: any[] | null): any[] =>
+  maybe === null ? [] : maybe;
+
 export function TrainingProfile() {
   const {
     switchProfile,
@@ -27,8 +30,8 @@ export function TrainingProfile() {
 
   useEffect(() => {
     if (!currentUser) return;
-    getProfileNames().then(setProfileNames);
-    getPrograms().then(setPresetPrograms);
+    getProfileNames().then(maybeToList).then(setProfileNames);
+    getPrograms().then(maybeToList).then(setPresetPrograms);
   }, [currentUser]);
 
   return (
@@ -39,7 +42,7 @@ export function TrainingProfile() {
         <div>
           <CurrentProfile
             onProfileChange={() => {
-              getProfileNames().then(setProfileNames);
+              getProfileNames().then(maybeToList).then(setProfileNames);
             }}
           />
         </div>
@@ -116,7 +119,7 @@ export function TrainingProfile() {
                   if (currentUser === undefined) return;
                   setIsAddingProfile(false);
                   await createNewProfile(newProfileName, activeProgram.program);
-                  getProfileNames().then(setProfileNames);
+                  getProfileNames().then(maybeToList).then(setProfileNames);
                 }}
                 className="standard-button"
               >

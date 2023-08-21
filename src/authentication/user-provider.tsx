@@ -39,12 +39,14 @@ export const UserProvider = ({ children }: Props) => {
         currentUser,
         logIn: async (email, password) => {
           console.log(await logIn(email, password));
-          const name: string = await getUsername();
+          const name: string | null = await getUsername();
+          if (name === null) return;
           setUserPersistently({ name });
         },
         signIn: async (username, email, password) => {
           console.log(await signIn(username, email, password));
-          const name: string = await getUsername();
+          const name: string | null = await getUsername();
+          if (name === null) return;
           setUserPersistently({ name });
         },
         logOut: async () => {

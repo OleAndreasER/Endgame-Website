@@ -122,8 +122,8 @@ export function LiftsPage() {
   return (
     <main className="lifts-page">
       {lifts !== undefined &&
-      originalLifts !== undefined &&
-      program !== undefined &&
+      originalLifts !== null &&
+      program !== null &&
       weightInputs !== undefined ? (
         <>
           <div>
