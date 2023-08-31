@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { User } from "./user";
-import { getUsername, logIn, logOut, signIn } from "./user-access";
+import {
+  SignInResult,
+  getUsername,
+  logIn,
+  logOut,
+  signIn,
+} from "./user-access";
 
 interface Props {
   children: JSX.Element;
@@ -9,7 +15,11 @@ interface Props {
 interface UserContextValue {
   currentUser: User | undefined;
   logIn: (email: string, password: string) => Promise<void>;
-  signIn: (username: string, email: string, password: string) => Promise<void>;
+  signIn: (
+    username: string,
+    email: string,
+    password: string
+  ) => Promise<SignInResult | null>;
   logOut: () => Promise<void>;
 }
 
@@ -38,16 +48,39 @@ export const UserProvider = ({ children }: Props) => {
       value={{
         currentUser,
         logIn: async (email, password) => {
-          console.log(await logIn(email, password));
-          const name: string | null = await getUsername();
+          await logIn(email, password);
+          let name: string | null = null;
+          //Try 3 times getting the username, because it fails sometimes.
+          for (let i = 0; i < 3; i++) {
+            name = await getUsername();
+            if (name !== null) break;
+            await new Promise((f) => setTimeout(f, 500));
+          }
           if (name === null) return;
+
           setUserPersistently({ name });
         },
         signIn: async (username, email, password) => {
-          console.log(await signIn(username, email, password));
-          const name: string | null = await getUsername();
-          if (name === null) return;
+          const signInResult: SignInResult | null = await signIn(
+            username,
+            email,
+            password
+          );
+          if (signInResult === null || !signInResult.wasSuccess) {
+            return signInResult;
+          }
+
+          let name: string | null = null;
+          //Try 3 times getting the username, because it fails sometimes.
+          for (let i = 0; i < 3; i++) {
+            name = await getUsername();
+            if (name !== null) break;
+            await new Promise((f) => setTimeout(f, 500));
+          }
+          if (name === null) return null;
+
           setUserPersistently({ name });
+          return signInResult;
         },
         logOut: async () => {
           await logOut();

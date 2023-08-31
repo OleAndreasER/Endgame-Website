@@ -1,4 +1,5 @@
 import { useKeyDown } from "../../misc/useKeyDown";
+import { SignInResult } from "../user-access";
 import { UserContext } from "../user-provider";
 import "./login-page.css";
 import { useContext, useState } from "react";
@@ -13,6 +14,7 @@ export function LoginPage() {
   const [signInPassword, setSignInPassword] = useState<string>("");
   const [signInPasswordConfirm, setSignInPasswordConfirm] =
     useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useKeyDown(
     () => {
@@ -42,6 +44,7 @@ export function LoginPage() {
         <div className="bottom">
           {isSigningIn ? (
             <>
+              <div className="error-message">{errorMessage}</div>
               <input
                 placeholder="Username"
                 className="text-input login-input"
@@ -76,9 +79,29 @@ export function LoginPage() {
               <div className="adjacent login-buttons">
                 <button
                   className="standard-button login-button"
-                  onClick={() => {
-                    if (signInPassword !== signInPasswordConfirm) return;
-                    signIn(signInUsername, signInEmail, signInPassword);
+                  onClick={async () => {
+                    if (signInPassword !== signInPasswordConfirm) {
+                      setErrorMessage("Passwords don't match");
+                      return;
+                    }
+
+                    const signInResult: SignInResult | null = await signIn(
+                      signInUsername,
+                      signInEmail,
+                      signInPassword
+                    );
+
+                    if (signInResult === null) {
+                      setErrorMessage("Something went wrong");
+                      return;
+                    }
+
+                    if (
+                      !signInResult.wasSuccess &&
+                      signInResult.failureReason !== undefined
+                    ) {
+                      setErrorMessage(signInResult.failureReason);
+                    }
                   }}
                 >
                   Sign up

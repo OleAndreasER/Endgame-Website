@@ -1,103 +1,50 @@
 import { testUriBase } from "../config/uri";
 
-export const get = async (path: string): Promise<any> => {
-  const response = await fetch(testUriBase + path, {
-    credentials: "include",
-  }).catch(() => {
-    console.error("Failed GET " + path);
-    return null;
-  });
-  if (response === null) return null;
-  return response.json();
-};
-
-export const put = async (
+const fetchByMethod = (
+  method: "PUT" | "POST" | "GET" | "DELETE",
   path: string,
-  body: {} | undefined = undefined
-): Promise<any> => {
-  if (body === undefined) {
-    const response = await fetch(testUriBase + path, {
-      method: "PUT",
-      credentials: "include",
-    }).catch(() => {
-      console.error("Failed PUT " + path);
+  body: any | undefined = undefined
+): Promise<any | null> => {
+  const requestInit: RequestInit =
+    body === undefined
+      ? {
+          method: method,
+          credentials: "include",
+        }
+      : {
+          method: method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+          credentials: "include",
+        };
+
+  return fetch(testUriBase + path, requestInit)
+    .then((response) => {
+      if (response.status === 200) {
+        return response.json();
+      }
+      return Promise.reject(response);
+    })
+    .catch((reason) => {
+      console.error(`Failed ${method} ${path}`);
       return null;
     });
-
-    if (response === null) return null;
-    return response.json();
-  }
-
-  // With json body
-  const response = await fetch(testUriBase + path, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-    credentials: "include",
-  }).catch(() => {
-    console.error("Failed PUT " + path);
-    return null;
-  });
-  if (response === null) return null;
-  return response.json();
 };
 
-export const post = async (
+export const get = (path: string): Promise<any | null> =>
+  fetchByMethod("GET", path);
+
+export const put = (
   path: string,
-  body: {} | undefined = undefined
-): Promise<any> => {
-  if (body === undefined) {
-    const response = await fetch(testUriBase + path, {
-      method: "POST",
-      credentials: "include",
-    }).catch(() => {
-      console.error("Failed POST " + path);
-      return null;
-    });
+  body: any | undefined = undefined
+): Promise<any | null> => fetchByMethod("PUT", path, body);
 
-    if (response === null) return null;
-    return response.json();
-  }
-
-  const response = await fetch(testUriBase + path, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-    credentials: "include",
-  }).catch(() => {
-    console.error("Failed POST " + path);
-    return null;
-  });
-  if (response === null) return null;
-  return response.json();
-};
-
-export const del = async (
+export const post = (
   path: string,
-  body: {} | undefined = undefined
-): Promise<any> => {
-  if (body === undefined) {
-    const response = await fetch(testUriBase + path, {
-      method: "DELETE",
-      credentials: "include",
-    }).catch(() => {
-      console.error("Failed DELETE " + path);
-      return null;
-    });
-    if (response === null) return null;
-    return response.json();
-  }
+  body: any | undefined = undefined
+): Promise<any | null> => fetchByMethod("POST", path, body);
 
-  const response = await fetch(testUriBase + path, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-    credentials: "include",
-  }).catch(() => {
-    console.error("Failed DELETE " + path);
-    return null;
-  });
-
-  if (response === null) return null;
-  return response.json();
-};
+export const del = (
+  path: string,
+  body: any | undefined = undefined
+): Promise<any | null> => fetchByMethod("DELETE", path, body);
