@@ -16,13 +16,42 @@ export function LoginPage() {
     useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  const signInWithErrorMessage = async () => {
+    if (signInPassword !== signInPasswordConfirm) {
+      setErrorMessage("Passwords don't match");
+      return;
+    }
+
+    const signInResult: SignInResult | null = await signIn(
+      signInUsername,
+      signInEmail,
+      signInPassword
+    );
+
+    if (signInResult === null) {
+      setErrorMessage("Something went wrong");
+      return;
+    }
+
+    if (!signInResult.wasSuccess && signInResult.failureReason !== undefined) {
+      setErrorMessage(signInResult.failureReason);
+    }
+  };
+
+  const logInWithErrorMessage = async () => {
+    const gotLoggedIn: boolean = await logIn(loginEmail, loginPassword);
+    if (!gotLoggedIn) {
+      setErrorMessage("Try again!");
+    }
+  };
+
   useKeyDown(
     () => {
       if (isSigningIn) {
         if (signInPassword !== signInPasswordConfirm) return;
-        signIn(signInUsername, signInEmail, signInPassword);
+        signInWithErrorMessage();
       } else {
-        logIn(loginEmail, loginPassword);
+        logInWithErrorMessage();
       }
     },
     ["Enter"],
@@ -79,30 +108,7 @@ export function LoginPage() {
               <div className="adjacent login-buttons">
                 <button
                   className="standard-button login-button"
-                  onClick={async () => {
-                    if (signInPassword !== signInPasswordConfirm) {
-                      setErrorMessage("Passwords don't match");
-                      return;
-                    }
-
-                    const signInResult: SignInResult | null = await signIn(
-                      signInUsername,
-                      signInEmail,
-                      signInPassword
-                    );
-
-                    if (signInResult === null) {
-                      setErrorMessage("Something went wrong");
-                      return;
-                    }
-
-                    if (
-                      !signInResult.wasSuccess &&
-                      signInResult.failureReason !== undefined
-                    ) {
-                      setErrorMessage(signInResult.failureReason);
-                    }
-                  }}
+                  onClick={() => signInWithErrorMessage()}
                 >
                   Sign up
                 </button>
@@ -116,6 +122,7 @@ export function LoginPage() {
             </>
           ) : (
             <>
+              <div className="error-message">{errorMessage}</div>
               <input
                 placeholder="Email"
                 type="email"
@@ -137,7 +144,7 @@ export function LoginPage() {
               <div className="adjacent login-buttons">
                 <button
                   onClick={() => {
-                    logIn(loginEmail, loginPassword);
+                    logInWithErrorMessage();
                   }}
                   className="standard-button login-button"
                 >

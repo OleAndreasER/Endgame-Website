@@ -1,9 +1,8 @@
 import { testUriBase } from "../config/uri";
 import { del, get, post } from "../misc/fetch-methods";
 
-export const logIn = async (email: string, password: string): Promise<void> => {
+export const logIn = (email: string, password: string): Promise<boolean> =>
   post(`users/login`, { email, password });
-};
 
 export type SignInResult = { wasSuccess: boolean; failureReason?: string };
 
@@ -12,8 +11,6 @@ export const signIn = async (
   email: string,
   password: string
 ): Promise<SignInResult | null> => {
-  //post("users", { username, email, password });
-
   const requestInit: RequestInit = {
     method: "POST",
     headers: { "Content-Type": "application/json" },

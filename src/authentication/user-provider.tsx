@@ -14,7 +14,7 @@ interface Props {
 
 interface UserContextValue {
   currentUser: User | undefined;
-  logIn: (email: string, password: string) => Promise<void>;
+  logIn: (email: string, password: string) => Promise<boolean>;
   signIn: (
     username: string,
     email: string,
@@ -48,7 +48,11 @@ export const UserProvider = ({ children }: Props) => {
       value={{
         currentUser,
         logIn: async (email, password) => {
-          await logIn(email, password);
+          const gotLoggedIn: boolean = await logIn(email, password);
+          if (!gotLoggedIn) {
+            return false;
+          }
+
           let name: string | null = null;
           //Try 3 times getting the username, because it fails sometimes.
           for (let i = 0; i < 3; i++) {
@@ -56,9 +60,10 @@ export const UserProvider = ({ children }: Props) => {
             if (name !== null) break;
             await new Promise((f) => setTimeout(f, 500));
           }
-          if (name === null) return;
+          if (name === null) return false;
 
           setUserPersistently({ name });
+          return true;
         },
         signIn: async (username, email, password) => {
           const signInResult: SignInResult | null = await signIn(
