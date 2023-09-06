@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { User } from "./user";
 import {
-  SignInResult,
+  SignUpResult,
   getUsername,
   logIn,
   logOut,
-  signIn,
+  signUp,
 } from "./user-access";
 
 interface Props {
@@ -15,11 +15,11 @@ interface Props {
 interface UserContextValue {
   currentUser: User | undefined;
   logIn: (email: string, password: string) => Promise<boolean>;
-  signIn: (
+  signUp: (
     username: string,
     email: string,
     password: string
-  ) => Promise<SignInResult | null>;
+  ) => Promise<SignUpResult | null>;
   logOut: () => Promise<void>;
 }
 
@@ -65,14 +65,14 @@ export const UserProvider = ({ children }: Props) => {
           setUserPersistently({ name });
           return true;
         },
-        signIn: async (username, email, password) => {
-          const signInResult: SignInResult | null = await signIn(
+        signUp: async (username, email, password) => {
+          const signUpResult: SignUpResult | null = await signUp(
             username,
             email,
             password
           );
-          if (signInResult === null || !signInResult.wasSuccess) {
-            return signInResult;
+          if (signUpResult === null || !signUpResult.wasSuccess) {
+            return signUpResult;
           }
 
           let name: string | null = null;
@@ -85,7 +85,7 @@ export const UserProvider = ({ children }: Props) => {
           if (name === null) return null;
 
           setUserPersistently({ name });
-          return signInResult;
+          return signUpResult;
         },
         logOut: async () => {
           await logOut();

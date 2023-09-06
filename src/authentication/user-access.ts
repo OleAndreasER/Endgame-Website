@@ -4,13 +4,13 @@ import { del, get, post } from "../misc/fetch-methods";
 export const logIn = (email: string, password: string): Promise<boolean> =>
   post(`users/login`, { email, password });
 
-export type SignInResult = { wasSuccess: boolean; failureReason?: string };
+export type SignUpResult = { wasSuccess: boolean; failureReason?: string };
 
-export const signIn = async (
+export const signUp = async (
   username: string,
   email: string,
   password: string
-): Promise<SignInResult | null> => {
+): Promise<SignUpResult | null> => {
   const requestInit: RequestInit = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
