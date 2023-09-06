@@ -6,7 +6,7 @@ export const logIn = (email: string, password: string): Promise<boolean> =>
 
 export type SignUpResult = { wasSuccess: boolean; failureReason?: string };
 
-export const signUp = async (
+export const signUp = (
   username: string,
   email: string,
   password: string
@@ -36,7 +36,7 @@ export const signUp = async (
 };
 
 export const logOut = async (): Promise<void> => {
-  del(`users/login`);
+  await del(`users/login`);
 };
 
 export const getUsername = (): Promise<string | null> => get(`users/name`);

@@ -47,5 +47,5 @@ export const getLifts = async (): Promise<Lifts | null> => {
 };
 
 export const setLifts = async (lifts: Lifts): Promise<void> => {
-  put(`stats`, toStats(lifts));
+  await put(`stats`, toStats(lifts));
 };
