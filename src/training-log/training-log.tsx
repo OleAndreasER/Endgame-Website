@@ -11,7 +11,7 @@ export function TrainingLog() {
   );
 
   return log !== null && nextLog !== null ? (
-    <main className="triple-grid">
+    <main className="triple-grid column-on-mobile">
       <div />
       <div className="training-log">
         {nextLog.map((logEntry, i) =>
@@ -50,7 +50,7 @@ export function TrainingLog() {
             <img
               src={upArrow}
               onClick={resetNextLog}
-              className="down-arrow"
+              className="down-arrow only-desktop"
               alt="reset"
             />
           ) : (

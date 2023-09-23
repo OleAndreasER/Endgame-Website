@@ -64,6 +64,29 @@ main {
   grid-template-columns: 1fr auto 1fr;
 }
 
+@media only screen and (max-width: 360px) {
+  body {
+    width: 360px;
+    overflow: auto;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .only-desktop {
+    display: none;
+  }
+
+  .triple-grid.column-on-mobile {
+    display: flex;
+    align-items: center;
+    flex-direction: column-reverse;
+  }
+
+  .triple-grid.column-on-mobile.left-first {
+    flex-direction: column;
+  }
+}
+
 /*
 .triple-grid > div {
   border: 1px solid red;
@@ -91,6 +114,7 @@ main {
 .center {
   display: flex;
   justify-content: center;
+  flex-direction: row;
 }
 
 img {

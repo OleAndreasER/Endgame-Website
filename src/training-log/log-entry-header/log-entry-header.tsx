@@ -70,14 +70,14 @@ export function LogEntryHeader({
             <>
               <img
                 onClick={() => setIsEditing(true)}
-                className="standard-icon"
+                className="standard-icon only-desktop"
                 alt="edit"
                 src={editImage}
               />
               {logEntryIndex === 0 ? (
                 <img
                   onClick={undoLogEntry}
-                  className="standard-icon"
+                  className="standard-icon only-desktop"
                   alt="undo"
                   src={undoImage}
                 />

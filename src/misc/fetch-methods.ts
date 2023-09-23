@@ -27,6 +27,7 @@ const fetchByMethod = (
     })
     .catch((reason) => {
       console.error(`Failed ${method} ${path}`);
+      console.error(reason);
       return null;
     });
 };

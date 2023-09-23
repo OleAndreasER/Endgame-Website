@@ -35,7 +35,7 @@ export function TrainingProfile() {
   }, [currentUser]);
 
   return (
-    <main className="triple-grid">
+    <main className="triple-grid column-on-mobile left-first">
       {activeProfileName === undefined || currentUser === undefined ? (
         <div />
       ) : (

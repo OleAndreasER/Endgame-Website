@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../../user-provider";
 import { SignUpResult } from "../../user-access";
-import { useKeyDown } from "../../../misc/useKeyDown";
+import { useKeyDown } from "../../../misc/use-key-down";
 interface Props {
   switchToLogin: () => void;
 }

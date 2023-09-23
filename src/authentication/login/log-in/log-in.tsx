@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { UserContext } from "../../user-provider";
-import { useKeyDown } from "../../../misc/useKeyDown";
+import { useKeyDown } from "../../../misc/use-key-down";
 
 interface Props {
   switchToSignUp: () => void;

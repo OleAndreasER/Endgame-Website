@@ -193,7 +193,7 @@ export function LiftsPage() {
                     />
                     kg
                   </td>
-                  <td>
+                  <td className="only-desktop">
                     {
                       <Cycle
                         itemWidth={80}

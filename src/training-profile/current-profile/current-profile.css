@@ -5,6 +5,12 @@
   padding-top: 5px;
 }
 
+@media only screen and (max-width: 600px) {
+  .current-profile {
+    text-align: center;
+    border: none;
+  }
+}
 .current-profile .profile-name {
   font-size: 1.5em;
   margin-bottom: 10px;

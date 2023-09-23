@@ -57,18 +57,18 @@ export function CurrentProfile({ onProfileChange }: Props) {
   return (
     <div className="current-profile">
       <div className="profile-name">{profileName}</div>
-      <DeleteButton
-        onClick={async () => {
-          await deleteProfile(profileName);
-          onProfileChange();
-        }}
-      />
-      <button
-        className="standard-button"
-        onClick={() => setRename(profileName)}
-      >
-        Rename
-      </button>
+        <DeleteButton
+          onClick={async () => {
+            await deleteProfile(profileName);
+            onProfileChange();
+          }}
+        />
+        <button
+          className="standard-button"
+          onClick={() => setRename(profileName)}
+        >
+          Rename
+        </button>
     </div>
   );
 }
