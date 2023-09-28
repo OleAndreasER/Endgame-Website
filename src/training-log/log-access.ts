@@ -68,6 +68,7 @@ const groupSets = (individualSets: SetFromServer[]): Sets[] => {
   let temporaryGroup: SetFromServer[] = [];
 
   const addGroup = (): void => {
+    if (temporaryGroup.length === 0) return;
     const representativeSet: SetFromServer = temporaryGroup[0];
     const sets: number = temporaryGroup.length;
     groupedSets.push({
